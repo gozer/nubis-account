@@ -1,11 +1,8 @@
-variable aws_profile {
-}
+variable aws_profile {}
 
-variable account_name {
-}
+variable account_name {}
 
-variable admin_users {
-}
+variable admin_users {}
 
 variable guest_users {
 }

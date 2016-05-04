@@ -1,17 +1,11 @@
-variable "aws_region" {
-}
+variable "aws_region" {}
 
-variable "aws_profile" {
-}
+variable "aws_profile" {}
 
-variable "enabled" {
-}
+variable "enabled" {}
 
-variable "environments" {
-}
+variable "environments" {}
 
-variable "lambda_uuid_arn" {
-}
+variable "lambda_uuid_arn" {}
 
-variable "name" {
-}
+variable "name" {}

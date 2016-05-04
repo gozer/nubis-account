@@ -35,7 +35,7 @@ module "global_opsec" {
   aws_profile = "${var.aws_profile}"
   aws_region  = "us-east-1"
 
-  cloudtrail_bucket = "${lookup(var.cloudtrail, "bucket")}"
+  cloudtrail_bucket    = "${lookup(var.cloudtrail, "bucket")}"
   cloudtrail_sns_topic = "${lookup(var.cloudtrail, "sns_topic")}"
 }
 
@@ -79,5 +79,5 @@ module "vpcs" {
   ci_git_repo                   = "${lookup(var.ci, "git_repo")}"
   ci_github_oauth_client_secret = "${lookup(var.ci, "github_oauth_client_secret")}"
   ci_github_oauth_client_id     = "${lookup(var.ci, "github_oauth_client_id")}"
-  ci_admins			= "${lookup(var.ci, "admins")}"
+  ci_admins                     = "${lookup(var.ci, "admins")}"
 }

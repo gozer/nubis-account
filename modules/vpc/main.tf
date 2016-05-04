@@ -642,16 +642,27 @@ resource "aws_route" "public" {
 }
 
 #resource "aws_route" "private" {
+
 #  count = "${3 * var.enabled * length(split(",", var.environments))}"
+
 #
+
 #  lifecycle {
+
 #    create_before_destroy = true
+
 #  }
+
 #
+
 #  route_table_id = "${element(aws_route_table.private.*.id, count.index)}"
+
 #
+
 #  destination_cidr_block = "0.0.0.0/0"
+
 ##  network_interface_id   = "${element(aws_network_interface.private-nat.*.id, count.index)}"
+
 #}
 
 resource "aws_route_table" "private" {
@@ -747,7 +758,7 @@ resource "aws_autoscaling_group" "nat" {
   ]
 
   load_balancers = [
-    "${element(aws_elb.proxy.*.name, count.index)}"
+    "${element(aws_elb.proxy.*.name, count.index)}",
   ]
 
   max_size             = 2
@@ -877,10 +888,10 @@ resource "aws_iam_policy_attachment" "credstash" {
 
   #XXX: concat and compact should work here, but element() isn't a list, so BUG
   roles = [
-    #XXX: Bug, puts the CI system in all environment roles
     "${split(",",replace(replace(concat(element(split(",",module.jumphost.iam_roles), count.index), ",", element(split(",",module.consul.iam_roles), count.index), ",", element(split(",",module.fluent-collector.iam_roles), count.index), ",", element(aws_iam_role.nat.*.id, count.index), ",", module.ci.iam_role ), "/(,+)/",","),"/(^,+|,+$)/", ""))}",
   ]
 
+  #XXX: Bug, puts the CI system in all environment roles
   policy_arn = "${element(aws_iam_policy.credstash.*.arn, count.index)}"
 }
 
@@ -1162,8 +1173,8 @@ resource "aws_route53_record" "proxy" {
   type = "A"
 
   alias {
-    name = "${element(aws_elb.proxy.*.dns_name, count.index)}"
-    zone_id = "${element(aws_elb.proxy.*.zone_id, count.index)}"
+    name                   = "${element(aws_elb.proxy.*.dns_name, count.index)}"
+    zone_id                = "${element(aws_elb.proxy.*.zone_id, count.index)}"
     evaluate_target_health = false
   }
 }
@@ -1172,7 +1183,10 @@ resource "aws_route53_record" "proxy" {
 resource "aws_elb" "proxy" {
   count = "${var.enabled * length(split(",", var.environments))}"
 
-  lifecycle { create_before_destroy = true }
+  lifecycle {
+    create_before_destroy = true
+  }
+
   name = "proxy-elb-${element(split(",",var.environments), count.index)}"
 
   #XXX: Fugly, assumes 3 subnets per environments, bad assumption, but valid ATM
@@ -1186,71 +1200,74 @@ resource "aws_elb" "proxy" {
   internal = true
 
   listener {
-    instance_port = 3128
+    instance_port     = 3128
     instance_protocol = "tcp"
-    lb_port = 3128
-    lb_protocol = "tcp"
+    lb_port           = 3128
+    lb_protocol       = "tcp"
   }
 
   health_check {
-    healthy_threshold = 2
+    healthy_threshold   = 2
     unhealthy_threshold = 2
-    timeout = 3
-    target = "TCP:3128"
-    interval = 60
+    timeout             = 3
+    target              = "TCP:3128"
+    interval            = 60
   }
 
   cross_zone_load_balancing = true
 
   security_groups = [
-    "${element(aws_security_group.proxy.*.id, count.index)}"
+    "${element(aws_security_group.proxy.*.id, count.index)}",
   ]
 
   tags = {
-      Name = "elb-proxy-${element(split(",",var.environments), count.index)}"
-      Region = "${var.aws_region}"
-      Environment = "${element(split(",",var.environments), count.index)}"
+    Name        = "elb-proxy-${element(split(",",var.environments), count.index)}"
+    Region      = "${var.aws_region}"
+    Environment = "${element(split(",",var.environments), count.index)}"
   }
 }
 
 resource "aws_security_group" "proxy" {
   count = "${var.enabled * length(split(",", var.environments))}"
 
-  lifecycle { create_before_destroy = true }
+  lifecycle {
+    create_before_destroy = true
+  }
 
-  name = "elb-proxy-${element(split(",",var.environments), count.index)}"
+  name        = "elb-proxy-${element(split(",",var.environments), count.index)}"
   description = "Allow inbound traffic for Squid in ${element(split(",",var.environments), count.index)}"
 
   vpc_id = "${element(aws_vpc.nubis.*.id, count.index)}"
 
   ingress {
-      from_port = 3128
-      to_port = 3128
-      protocol = "tcp"
-      security_groups = [
-        "${element(aws_security_group.internet_access.*.id, count.index)}",
-      ]
+    from_port = 3128
+    to_port   = 3128
+    protocol  = "tcp"
+
+    security_groups = [
+      "${element(aws_security_group.internet_access.*.id, count.index)}",
+    ]
   }
 
   # Put back Amazon Default egress all rule
   egress {
-      from_port = 0
-      to_port = 0
-      protocol = "-1"
-      cidr_blocks = ["0.0.0.0/0"]
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = {
-      Name = "elb-proxy-${element(split(",",var.environments), count.index)}"
-      Region = "${var.aws_region}"
-      Environment = "${element(split(",",var.environments), count.index)}"
+    Name        = "elb-proxy-${element(split(",",var.environments), count.index)}"
+    Region      = "${var.aws_region}"
+    Environment = "${element(split(",",var.environments), count.index)}"
   }
-
 }
 
 resource "aws_eip" "nat" {
   count = "${var.enabled * length(split(",", var.environments))}"
   vpc   = true
+
   lifecycle {
     create_before_destroy = true
   }
