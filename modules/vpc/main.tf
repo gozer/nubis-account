@@ -1381,7 +1381,7 @@ resource "aws_iam_role_policy" "lambda_user_management" {
     }
 
     name = "user_management_policy-${var.aws_region}-${element(split(",", var.environments), count.index)}"
-    role = "${element(aws_iam_role.lambda_user_management.*.arn, count.index)}"
+    role = "${aws_iam_role.lambda-user-management.id}"
     policy = <<EOF
 {
     "Version": "2012-10-17",
@@ -1464,4 +1464,9 @@ resource "aws_cloudwatch_event_target" "user_management" {
     count       = "${var.enabled * var.enable_user_management * length(split(",", var.environments))}"
     rule        = "lambda_user_management-${element(split(",", var.environments), count.index)}"
     arn         = "${element(aws_lambda_function.user_management.*.arn, count.index)}"
+=======
+    vpc_config          = "${aws_vpc.nubis.*.id}"
+    subnet_id           = "${aws_subnet.nubis.*.id}"
+    //security_group_ids  =
+>>>>>>> Create initial lambda function in terraform
 }
