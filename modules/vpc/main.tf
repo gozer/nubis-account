@@ -1338,3 +1338,92 @@ resource "aws_s3_bucket_object" "public_state" {
 }
 EOF
 }
+
+resource "aws_iam_role" "lambda-user-management" {
+    #count = "${var.enabled}"
+    lifecycle {
+        create_before_destroy = true
+    }
+
+    name = "lambda-user-management-${var.aws_region}"
+
+    provisioner "local-exec" {
+        command = "sleep 30"
+    }
+
+    assume_role_policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Service": [
+                  "lambda.amazonaws.com"
+                ]
+            },
+            "Action": [
+                "sts:AssumeRole"
+            ]
+        }
+    ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "lambda-user-management" {
+    count = "${var.enabled}"
+
+    lifecycle {
+        create_before_destroy = true
+    }
+
+    name = "user-management_policy-${var.aws_region}"
+    role = "${aws_iam_role.lambda-user-management.id}"
+    policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "LambdaVPCAccess",
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+                "ec2:CreateNetworkInterface",
+                "ec2:DescribeNetworkInterfaces",
+                "ec2:DeleteNetworkInterface"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "CreateIAMUsers",
+            "Effect": "Allow",
+            "Action": [
+                "iam:List*",
+                "iam:Get*"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+EOF
+}
+
+resource "aws_lambda_function" "user-management" {
+    count = "${var.enabled * var.enable_user_management}"
+
+    function_name   = "user_management"
+    filename        = "user_management.zip"
+    role            = "${aws_iam_role.lambda-user-management.arn}"
+    handler         = "index.handler"
+    description     = "Queries LDAP and inserts user into consul and create and delete IAM users"
+    memory_size     = 128
+    runtime         = "nodejs"
+    timeout         = "10"
+
+    vpc_config          = "${aws_vpc.nubis.*.id}"
+    subnet_id           = "${aws_subnet.nubis.*.id}"
+    //security_group_ids  =
+}
