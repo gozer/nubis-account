@@ -1464,9 +1464,4 @@ resource "aws_cloudwatch_event_target" "user_management" {
     count       = "${var.enabled * var.enable_user_management * length(split(",", var.environments))}"
     rule        = "lambda_user_management-${element(split(",", var.environments), count.index)}"
     arn         = "${element(aws_lambda_function.user_management.*.arn, count.index)}"
-=======
-    vpc_config          = "${aws_vpc.nubis.*.id}"
-    subnet_id           = "${aws_subnet.nubis.*.id}"
-    //security_group_ids  =
->>>>>>> Create initial lambda function in terraform
 }
