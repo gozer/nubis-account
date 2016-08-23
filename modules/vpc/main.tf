@@ -1340,12 +1340,12 @@ EOF
 }
 
 resource "aws_iam_role" "lambda_user_management" {
-    #count = "${var.enabled}"
+    count = "${var.enabled * var.enable_user_management * length(split(",", var.environments))}"
     lifecycle {
         create_before_destroy = true
     }
 
-    name = "lambda_user_management-${var.aws_region}"
+    name = "lambda_user_management-${var.aws_region}-${element(split(",", var.environments), count.index)}"
 
     provisioner "local-exec" {
         command = "sleep 30"
@@ -1372,14 +1372,14 @@ EOF
 }
 
 resource "aws_iam_role_policy" "lambda_user_management" {
-    count = "${var.enabled}"
+    count = "${var.enabled * var.enable_user_management * length(split(",", var.environments))}"
 
     lifecycle {
         create_before_destroy = true
     }
 
-    name = "user_management_policy-${var.aws_region}"
-    role = "${aws_iam_role.lambda_user_management.id}"
+    name = "user_management_policy-${var.aws_region}-${element(split(",", var.environments), count.index)}"
+    role = "${element(aws_iam_role.lambda_user_management.*.arn, count.index)}"
     policy = <<EOF
 {
     "Version": "2012-10-17",
@@ -1417,7 +1417,7 @@ resource "aws_lambda_function" "user_management" {
     function_name   = "user_management-${element(split(",",var.environments), count.index)}"
     s3_bucket       = "nubis-stacks"
     s3_key          = "${var.nubis_version}/lambda/user_management.zip"
-    role            = "${aws_iam_role.lambda_user_management.arn}"
+    role            = "${element(aws_iam_role.lambda_user_management.*.arn, count.index)}"
     handler         = "index.handler"
     description     = "Queries LDAP and inserts user into consul and create and delete IAM users"
     memory_size     = 128
@@ -1426,7 +1426,9 @@ resource "aws_lambda_function" "user_management" {
 
     vpc_config = {
         subnet_ids = [
-            "${element(aws_subnet.private.*.id, count.index)}"
+            "${element(aws_subnet.private.*.id, 3*count.index)}",
+            "${element(aws_subnet.private.*.id, 3*count.index+1)}",
+            "${element(aws_subnet.private.*.id, 3*count.index+2)}",
         ]
         security_group_ids = [
             "${element(aws_security_group.shared_services.*.id, count.index)}",
@@ -1457,6 +1459,7 @@ EOF
 }
 
 resource "aws_cloudwatch_event_target" "user_management" {
-    rule    = "${aws_cloudwatch_event_rule.user_management_event.name}"
-    arn     = "${aws_lambda_function.user_management.arn}"
+    count       = "${var.enabled * var.enable_user_management * length(split(",", var.environments))}"
+    rule        = "lambda_user_management-${element(split(",", var.environments), count.index)}"
+    arn         = "${element(aws_lambda_function.user_management.*.arn, count.index)}"
 }
