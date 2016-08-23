@@ -1339,13 +1339,13 @@ resource "aws_s3_bucket_object" "public_state" {
 EOF
 }
 
-resource "aws_iam_role" "lambda-user-management" {
+resource "aws_iam_role" "lambda_user_management" {
     #count = "${var.enabled}"
     lifecycle {
         create_before_destroy = true
     }
 
-    name = "lambda-user-management-${var.aws_region}"
+    name = "lambda_user_management-${var.aws_region}"
 
     provisioner "local-exec" {
         command = "sleep 30"
@@ -1371,15 +1371,15 @@ resource "aws_iam_role" "lambda-user-management" {
 EOF
 }
 
-resource "aws_iam_role_policy" "lambda-user-management" {
+resource "aws_iam_role_policy" "lambda_user_management" {
     count = "${var.enabled}"
 
     lifecycle {
         create_before_destroy = true
     }
 
-    name = "user-management_policy-${var.aws_region}"
-    role = "${aws_iam_role.lambda-user-management.id}"
+    name = "user_management_policy-${var.aws_region}"
+    role = "${aws_iam_role.lambda_user_management.id}"
     policy = <<EOF
 {
     "Version": "2012-10-17",
@@ -1411,19 +1411,52 @@ resource "aws_iam_role_policy" "lambda-user-management" {
 EOF
 }
 
-resource "aws_lambda_function" "user-management" {
-    count = "${var.enabled * var.enable_user_management}"
+resource "aws_lambda_function" "user_management" {
+    count = "${var.enabled * var.enable_user_management * length(split(",", var.environments))}"
 
-    function_name   = "user_management"
-    filename        = "user_management.zip"
-    role            = "${aws_iam_role.lambda-user-management.arn}"
+    function_name   = "user_management-${element(split(",",var.environments), count.index)}"
+    s3_bucket       = "nubis-stacks"
+    s3_key          = "${var.nubis_version}/lambda/user_management.zip"
+    role            = "${aws_iam_role.lambda_user_management.arn}"
     handler         = "index.handler"
     description     = "Queries LDAP and inserts user into consul and create and delete IAM users"
     memory_size     = 128
     runtime         = "nodejs"
     timeout         = "10"
 
-    vpc_config          = "${aws_vpc.nubis.*.id}"
-    subnet_id           = "${aws_subnet.nubis.*.id}"
-    //security_group_ids  =
+    vpc_config = {
+        subnet_ids = [
+            "${element(aws_subnet.private.*.id, count.index)}"
+        ]
+        security_group_ids = [
+            "${element(aws_security_group.shared_services.*.id, count.index)}",
+            "${element(aws_security_group.internet_access.*.id, count.index)}",
+        ]
+    }
+}
+
+resource "aws_cloudwatch_event_rule" "user_management_event" {
+    count               = "${var.enabled * var.enable_user_management * length(split(",", var.environments))}"
+    name                = "lambda_user_management-${element(split(",", var.environments), count.index)}"
+    description         = "Sends payload over a periodic time"
+    schedule_expression = "rate(15 minutes)"
+
+    event_pattern       = <<EOF
+{
+    "command": "./main",
+    "args": [
+        "-enviroment",
+        "${element(split(",", var.environments), count.index)}",
+        "-region",
+        "${var.aws_region}",
+        "-account",
+        "${var.account_name}"
+    ]
+}
+EOF
+}
+
+resource "aws_cloudwatch_event_target" "user_management" {
+    rule    = "${aws_cloudwatch_event_rule.user_management_event.name}"
+    arn     = "${aws_lambda_function.user_management.arn}"
 }
