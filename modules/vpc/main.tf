@@ -844,7 +844,7 @@ USER_DATA
 
 # XXX: This could be a global
 resource "aws_iam_role" "nat" {
-  count = "${var.enabled * var.enable_nat * length(split(",", var.environments))}"
+  count = "${var.enabled * length(split(",", var.environments))}"
 
   lifecycle {
     create_before_destroy = true
@@ -871,7 +871,7 @@ POLICY
 }
 
 resource "aws_iam_role_policy" "nat" {
-  count = "${var.enabled * var.enable_nat * length(split(",", var.environments))}"
+  count = "${var.enabled * length(split(",", var.environments))}"
 
   lifecycle {
     create_before_destroy = true
@@ -883,7 +883,7 @@ resource "aws_iam_role_policy" "nat" {
 }
 
 resource "aws_iam_instance_profile" "nat" {
-  count = "${var.enabled * var.enable_nat * length(split(",", var.environments))}"
+  count = "${var.enabled * length(split(",", var.environments))}"
 
   lifecycle {
     create_before_destroy = true
@@ -1170,7 +1170,7 @@ resource "aws_route53_zone" "proxy" {
 
 # Create a proxy discovery VPC DNS record for bootstrap proxy access
 resource "aws_route53_record" "proxy" {
-  count   = "${var.enabled * length(split(",", var.environments))}"
+  count   = "${var.enabled * var.enable_nat * length(split(",", var.environments))}"
   zone_id = "${element(aws_route53_zone.proxy.*.zone_id, count.index)}"
   name    = "proxy.${element(split(",",var.environments), count.index)}.${var.aws_region}.${var.account_name}.${var.nubis_domain}"
 

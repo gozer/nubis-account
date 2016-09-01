@@ -62,6 +62,7 @@ variable features {
     vpn          = 0
     nat          = 1
     opsec        = 0
+    resources    = 1
   }
 }
 
