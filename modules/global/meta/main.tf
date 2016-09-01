@@ -141,7 +141,6 @@ resource "aws_lambda_function" "GlobalUUID" {
 
   function_name = "GlobalUUID"
   s3_bucket     = "nubis-stacks"
-  #s3_bucket     = "nubis-stacks-${var.aws_region}"
   s3_key        = "${var.nubis_version}/lambda/UUID.zip"
   handler       = "index.handler"
   description   = "Generate UUIDs for use in Nubis Meta"

@@ -162,11 +162,6 @@ resource "aws_db_parameter_group" "mysql56" {
     apply_method = "pending-reboot"
     value = "536870912"
   }
-  parameter {
-    name  = "innodb_log_buffer_size"
-    apply_method = "pending-reboot"
-    value = "8388608"
-  }
 
   tags {
     ServiceName      = "${var.service_name}"
