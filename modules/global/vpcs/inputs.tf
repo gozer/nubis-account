@@ -34,6 +34,9 @@ variable consul_secret {
 variable consul_master_acl_token {
 }
 
+variable enable_vpc {
+}
+
 variable enable_jumphost {
 }
 

@@ -13,7 +13,7 @@ module "us-east-1" {
   #  - change XXX, if found into 1
   #  - change YYY... if found into 0
   #  Result, 1 if the region is found, 0 otherwise
-  enabled = "${replace(replace(replace(replace(var.aws_regions, "/.*,?us-east-1,?.*/", "XXX"), "/[^X]+/", "Y" ), "XXX", "1"),"/Y+/","0")}"
+  enabled = "${var.enable_vpc * replace(replace(replace(replace(var.aws_regions, "/.*,?us-east-1,?.*/", "XXX"), "/[^X]+/", "Y" ), "XXX", "1"),"/Y+/","0")}"
 
   enable_consul       = "${var.enable_consul}"
   enable_jumphost     = "${var.enable_jumphost}"
@@ -76,7 +76,7 @@ module "us-west-2" {
   #  - change XXX, if found into 1
   #  - change YYY... if found into 0
   #  Result, 1 if the region is found, 0 otherwise
-  enabled = "${replace(replace(replace(replace(var.aws_regions, "/.*,?us-west-2,?.*/", "XXX"), "/[^X]+/", "Y" ), "XXX", "1"),"/Y+/","0")}"
+  enabled = "${var.enable_vpc * replace(replace(replace(replace(var.aws_regions, "/.*,?us-west-2,?.*/", "XXX"), "/[^X]+/", "Y" ), "XXX", "1"),"/Y+/","0")}"
 
   enable_consul       = "${var.enable_consul}"
   enable_jumphost     = "${var.enable_jumphost}"

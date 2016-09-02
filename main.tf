@@ -47,6 +47,7 @@ module "global_opsec" {
 module "vpcs" {
   source = "modules/global/vpcs"
 
+  enable_vpc          = "${lookup(var.features,"vpc")}"
   enable_consul       = "${lookup(var.features,"consul")}"
   enable_jumphost     = "${lookup(var.features,"jumphost")}"
   enable_fluent       = "${lookup(var.features,"fluent")}"

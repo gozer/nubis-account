@@ -53,6 +53,7 @@ variable technical_contact {
 
 variable features {
   default = {
+    vpc          = 1
     consul       = 1
     jumphost     = 0
     fluent       = 0

@@ -24,6 +24,7 @@ guest_users = "jim,jack"
 
 # Optionnal features
 
+features.vpc = 1
 features.consul = 1
 features.jumphost = 0
 features.fluent = 0
