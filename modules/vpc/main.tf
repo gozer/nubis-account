@@ -900,7 +900,7 @@ resource "aws_iam_policy_attachment" "credstash" {
 
   #XXX: concat and compact should work here, but element() isn't a list, so BUG
   roles = [
-    "${split(",",replace(replace(concat(element(split(",",module.jumphost.iam_roles), count.index), ",", element(split(",",module.consul.iam_roles), count.index), ",", element(split(",",module.fluent-collector.iam_roles), count.index), ",", element(aws_iam_role.nat.*.id, count.index), ",", module.ci.iam_role ), "/(,+)/",","),"/(^,+|,+$)/", ""))}",
+    "${split(",",replace(replace(concat(element(split(",",module.jumphost.iam_roles), count.index), ",", element(split(",",module.consul.iam_roles), count.index), ",", element(split(",",module.fluent-collector.iam_roles), count.index), ",", element(aws_iam_role.nat.*.id, count.index), ",", element(aws_iam_role.lambda_user_management.*.id, count.index), ",", module.ci.iam_role ), "/(,+)/",","),"/(^,+|,+$)/", ""))}",
   ]
 
   #XXX: Bug, puts the CI system in all environment roles
@@ -1468,9 +1468,9 @@ resource "aws_security_group" "ldap" {
     }
 }
 
-resource "aws_cloudwatch_event_rule" "user_management_event" {
+resource "aws_cloudwatch_event_rule" "user_management_event_consul" {
     count               = "${var.enabled * var.enable_user_management * length(split(",", var.environments))}"
-    name                = "lambda_user_management-${element(split(",", var.environments), count.index)}"
+    name                = "lambda_user_management-consul-${element(split(",", var.environments), count.index)}"
     description         = "Sends payload over a periodic time"
     schedule_expression = "rate(15 minutes)"
 
@@ -1492,8 +1492,8 @@ resource "aws_cloudwatch_event_rule" "user_management_event" {
 EOF
 }
 
-resource "aws_cloudwatch_event_target" "user_management" {
+resource "aws_cloudwatch_event_target" "user_management_consul" {
     count       = "${var.enabled * var.enable_user_management * length(split(",", var.environments))}"
-    rule        = "lambda_user_management-${element(split(",", var.environments), count.index)}"
+    rule        = "lambda_user_management-consul-${element(split(",", var.environments), count.index)}"
     arn         = "${element(aws_lambda_function.user_management.*.arn, count.index)}"
 }
