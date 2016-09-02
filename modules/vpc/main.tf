@@ -1435,7 +1435,36 @@ resource "aws_lambda_function" "user_management" {
         security_group_ids = [
             "${element(aws_security_group.shared_services.*.id, count.index)}",
             "${element(aws_security_group.internet_access.*.id, count.index)}",
+            "${element(aws_security_group.ldap.*.id, count.index)}",
         ]
+    }
+}
+
+resource "aws_security_group_rule" "ldap" {
+    count = "${var.enabled * length(split(",", var.environments))}"
+
+    lifecycle {
+        create_before_destroy = true
+    }
+
+    vpc_id      = "${element(aws_vpc.nubis.*.id, count.index)}"
+    name_prefix = "MocoLdapOutbound-${element(split(",", var.environments), count.index)}-"
+    description = "Allow outbound ldap connection to moco ldap"
+
+    egress {
+        from_port   = "6363"
+        to_port     = "6363"
+        protocol    = "tcp"
+        cidr_blocks = [
+            "63.245.215.32/32"
+        ]
+    }
+
+    tags {
+        Name                = "MocoLdapOutboundSecurityGroup"
+        ServiceName         = "${var.account_name}"
+        TechnicalContact    = "${var.technical_contact}"
+        Environment         = "${element(split(",",var.environments), count.index)}"
     }
 }
 
