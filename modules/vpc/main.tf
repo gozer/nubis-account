@@ -1476,14 +1476,17 @@ resource "aws_cloudwatch_event_rule" "user_management_event" {
 
     event_pattern       = <<EOF
 {
-    "command": "./main",
+    "command": "./nubis-user-management",
     "args": [
-        "-enviroment",
-        "${element(split(",", var.environments), count.index)}",
-        "-region",
-        "${var.aws_region}",
-        "-account",
-        "${var.account_name}"
+        "-execType=consul",
+        "-useDynamo=true",
+        "-region=${var.aws_region}",
+        "-environment=${element(split(",", var.environments), count.index)}",
+        "-service=nubis",
+        "-accountName=${var.account_name}",
+        "-consulDomain=nubis.allizom.org",
+        "-key=nubis/${element(split(",", var.environments), count.index)}/user-sync/config",
+        "-lambda=true",
     ]
 }
 EOF
