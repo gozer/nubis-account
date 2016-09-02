@@ -1424,7 +1424,7 @@ resource "aws_lambda_function" "user_management" {
     description     = "Queries LDAP and inserts user into consul and create and delete IAM users"
     memory_size     = 128
     runtime         = "nodejs"
-    timeout         = "10"
+    timeout         = "30"
 
     vpc_config = {
         subnet_ids = [
@@ -1440,7 +1440,7 @@ resource "aws_lambda_function" "user_management" {
     }
 }
 
-resource "aws_security_group_rule" "ldap" {
+resource "aws_security_group" "ldap" {
     count = "${var.enabled * length(split(",", var.environments))}"
 
     lifecycle {
@@ -1486,7 +1486,7 @@ resource "aws_cloudwatch_event_rule" "user_management_event" {
         "-accountName=${var.account_name}",
         "-consulDomain=nubis.allizom.org",
         "-key=nubis/${element(split(",", var.environments), count.index)}/user-sync/config",
-        "-lambda=true",
+        "-lambda=true"
     ]
 }
 EOF
