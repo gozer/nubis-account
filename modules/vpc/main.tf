@@ -1473,15 +1473,20 @@ resource "aws_cloudwatch_event_rule" "user_management_event_consul" {
     name                = "lambda_user_management-consul-${element(split(",", var.environments), count.index)}"
     description         = "Sends payload over a periodic time"
     schedule_expression = "rate(15 minutes)"
+}
 
-    event_pattern       = <<EOF
+resource "aws_cloudwatch_event_target" "user_management_consul" {
+    count       = "${var.enabled * var.enable_user_management * length(split(",", var.environments))}"
+    rule        = "lambda_user_management-consul-${element(split(",", var.environments), count.index)}"
+    arn         = "${element(aws_lambda_function.user_management.*.arn, count.index)}"
+    input       = <<EOF
 {
     "command": "./nubis-user-management",
     "args": [
         "-execType=consul",
         "-useDynamo=true",
         "-region=${var.aws_region}",
-        "-environment=${element(split(",", var.environments), count.index)}",
+        "-environment='${element(split(",", var.environments), count.index)}'",
         "-service=nubis",
         "-accountName=${var.account_name}",
         "-consulDomain=nubis.allizom.org",
@@ -1490,10 +1495,4 @@ resource "aws_cloudwatch_event_rule" "user_management_event_consul" {
     ]
 }
 EOF
-}
-
-resource "aws_cloudwatch_event_target" "user_management_consul" {
-    count       = "${var.enabled * var.enable_user_management * length(split(",", var.environments))}"
-    rule        = "lambda_user_management-consul-${element(split(",", var.environments), count.index)}"
-    arn         = "${element(aws_lambda_function.user_management.*.arn, count.index)}"
 }
