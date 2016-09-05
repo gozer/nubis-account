@@ -900,7 +900,7 @@ resource "aws_iam_policy_attachment" "credstash" {
 
   #XXX: concat and compact should work here, but element() isn't a list, so BUG
   roles = [
-    "${split(",",replace(replace(concat(element(split(",",module.jumphost.iam_roles), count.index), ",", element(split(",",module.consul.iam_roles), count.index), ",", element(split(",",module.fluent-collector.iam_roles), count.index), ",", element(aws_iam_role.nat.*.id, count.index), ",", element(aws_iam_role.lambda_user_management.*.id, count.index), ",", module.ci.iam_role ), "/(,+)/",","),"/(^,+|,+$)/", ""))}",
+    "${split(",",replace(replace(concat(element(split(",",module.jumphost.iam_roles), count.index), ",", element(split(",",module.consul.iam_roles), count.index), ",", element(split(",",module.fluent-collector.iam_roles), count.index), ",", element(aws_iam_role.nat.*.id, count.index), ",", element(aws_iam_role.user_management.*.id, count.index), ",", module.ci.iam_role ), "/(,+)/",","),"/(^,+|,+$)/", ""))}",
   ]
 
   #XXX: Bug, puts the CI system in all environment roles
@@ -1341,7 +1341,7 @@ resource "aws_s3_bucket_object" "public_state" {
 EOF
 }
 
-resource "aws_iam_role" "lambda_user_management" {
+resource "aws_iam_role" "user_management" {
     count = "${var.enabled * var.enable_user_management * length(split(",", var.environments))}"
     lifecycle {
         create_before_destroy = true
@@ -1373,7 +1373,7 @@ resource "aws_iam_role" "lambda_user_management" {
 EOF
 }
 
-resource "aws_iam_role_policy" "lambda_user_management" {
+resource "aws_iam_role_policy" "user_management" {
     count = "${var.enabled * var.enable_user_management * length(split(",", var.environments))}"
 
     lifecycle {
@@ -1381,7 +1381,7 @@ resource "aws_iam_role_policy" "lambda_user_management" {
     }
 
     name = "user_management_policy-${var.aws_region}-${element(split(",", var.environments), count.index)}"
-    role = "${element(aws_iam_role.lambda_user_management.*.arn, count.index)}"
+    role = "${element(aws_iam_role.user_management.*.arn, count.index)}"
     policy = <<EOF
 {
     "Version": "2012-10-17",
@@ -1419,7 +1419,7 @@ resource "aws_lambda_function" "user_management" {
     function_name   = "user_management-${element(split(",",var.environments), count.index)}"
     s3_bucket       = "nubis-stacks"
     s3_key          = "${var.nubis_version}/lambda/UserManagement.zip"
-    role            = "${element(aws_iam_role.lambda_user_management.*.arn, count.index)}"
+    role            = "${element(aws_iam_role.user_management.*.arn, count.index)}"
     handler         = "index.handler"
     description     = "Queries LDAP and inserts user into consul and create and delete IAM users"
     memory_size     = 128
@@ -1470,14 +1470,14 @@ resource "aws_security_group" "ldap" {
 
 resource "aws_cloudwatch_event_rule" "user_management_event_consul" {
     count               = "${var.enabled * var.enable_user_management * length(split(",", var.environments))}"
-    name                = "lambda_user_management-consul-${element(split(",", var.environments), count.index)}"
+    name                = "user_management-consul-${element(split(",", var.environments), count.index)}"
     description         = "Sends payload over a periodic time"
     schedule_expression = "rate(15 minutes)"
 }
 
 resource "aws_cloudwatch_event_target" "user_management_consul" {
     count       = "${var.enabled * var.enable_user_management * length(split(",", var.environments))}"
-    rule        = "lambda_user_management-consul-${element(split(",", var.environments), count.index)}"
+    rule        = "user_management-consul-${element(split(",", var.environments), count.index)}"
     arn         = "${element(aws_lambda_function.user_management.*.arn, count.index)}"
     input       = <<EOF
 {
