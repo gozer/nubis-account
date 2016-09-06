@@ -900,7 +900,7 @@ resource "aws_iam_policy_attachment" "credstash" {
 
   #XXX: concat and compact should work here, but element() isn't a list, so BUG
   roles = [
-    "${split(",",replace(replace(concat(element(split(",",module.jumphost.iam_roles), count.index), ",", element(split(",",module.consul.iam_roles), count.index), ",", element(split(",",module.fluent-collector.iam_roles), count.index), ",", element(aws_iam_role.nat.*.id, count.index), ",", module.ci.iam_role ), "/(,+)/",","),"/(^,+|,+$)/", ""))}",
+    "${split(",",replace(replace(concat(element(split(",",module.jumphost.iam_roles), count.index), ",", element(split(",",module.consul.iam_roles), count.index), ",", element(split(",",module.fluent-collector.iam_roles), count.index), ",", element(aws_iam_role.nat.*.id, count.index), ",", element(aws_iam_role.user_management.*.id, count.index), ",", module.ci.iam_role ), "/(,+)/",","),"/(^,+|,+$)/", ""))}",
   ]
 
   #XXX: Bug, puts the CI system in all environment roles
@@ -1336,6 +1336,166 @@ resource "aws_s3_bucket_object" "public_state" {
             },
             "resources": {}
         }
+    ]
+}
+EOF
+}
+
+resource "aws_iam_role" "user_management" {
+    count = "${var.enabled * var.enable_user_management * length(split(",", var.environments))}"
+    lifecycle {
+        create_before_destroy = true
+    }
+
+    name = "user_management-${var.aws_region}-${element(split(",", var.environments), count.index)}"
+
+    provisioner "local-exec" {
+        command = "sleep 30"
+    }
+
+    assume_role_policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Service": [
+                  "lambda.amazonaws.com"
+                ]
+            },
+            "Action": [
+                "sts:AssumeRole"
+            ]
+        }
+    ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "user_management" {
+    count = "${var.enabled * var.enable_user_management * length(split(",", var.environments))}"
+
+    lifecycle {
+        create_before_destroy = true
+    }
+
+    name = "user_management-${var.aws_region}-${element(split(",", var.environments), count.index)}"
+    role = "${element(aws_iam_role.user_management.*.id, count.index)}"
+    policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "LambdaVPCAccess",
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+                "ec2:CreateNetworkInterface",
+                "ec2:DescribeNetworkInterfaces",
+                "ec2:DeleteNetworkInterface"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "CreateIAMUsers",
+            "Effect": "Allow",
+            "Action": [
+                "iam:List*",
+                "iam:Get*"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+EOF
+}
+
+resource "aws_lambda_function" "user_management" {
+    count = "${var.enabled * var.enable_user_management * length(split(",", var.environments))}"
+
+    depends_on = [
+        "aws_iam_role_policy.user_management"
+    ]
+
+    function_name   = "user_management-${element(split(",",var.environments), count.index)}"
+    s3_bucket       = "nubis-stacks"
+    s3_key          = "${var.nubis_version}/lambda/UserManagement.zip"
+    role            = "${element(aws_iam_role.user_management.*.arn, count.index)}"
+    handler         = "index.handler"
+    description     = "Queries LDAP and inserts user into consul and create and delete IAM users"
+    memory_size     = 128
+    runtime         = "nodejs4.3"
+    timeout         = "30"
+
+    vpc_config = {
+        subnet_ids = [
+            "${element(aws_subnet.private.*.id, 3*count.index)}",
+            "${element(aws_subnet.private.*.id, 3*count.index+1)}",
+            "${element(aws_subnet.private.*.id, 3*count.index+2)}",
+        ]
+        security_group_ids = [
+            "${element(aws_security_group.shared_services.*.id, count.index)}",
+            "${element(aws_security_group.internet_access.*.id, count.index)}",
+            "${element(aws_security_group.ldap.*.id, count.index)}",
+        ]
+    }
+}
+
+resource "aws_security_group" "ldap" {
+    count = "${var.enabled * length(split(",", var.environments))}"
+
+    lifecycle {
+        create_before_destroy = true
+    }
+
+    vpc_id      = "${element(aws_vpc.nubis.*.id, count.index)}"
+    name_prefix = "MocoLdapOutbound-${element(split(",", var.environments), count.index)}-"
+    description = "Allow outbound ldap connection to moco ldap"
+
+    egress {
+        from_port   = "6363"
+        to_port     = "6363"
+        protocol    = "tcp"
+        cidr_blocks = [
+            "63.245.215.32/32"
+        ]
+    }
+
+    tags {
+        Name                = "MocoLdapOutboundSecurityGroup"
+        ServiceName         = "${var.account_name}"
+        TechnicalContact    = "${var.technical_contact}"
+        Environment         = "${element(split(",",var.environments), count.index)}"
+    }
+}
+
+resource "aws_cloudwatch_event_rule" "user_management_event_consul" {
+    count               = "${var.enabled * var.enable_user_management * length(split(",", var.environments))}"
+    name                = "user_management-consul-${element(split(",", var.environments), count.index)}"
+    description         = "Sends payload over a periodic time"
+    schedule_expression = "rate(15 minutes)"
+}
+
+resource "aws_cloudwatch_event_target" "user_management_consul" {
+    count       = "${var.enabled * var.enable_user_management * length(split(",", var.environments))}"
+    rule        = "user_management-consul-${element(split(",", var.environments), count.index)}"
+    arn         = "${element(aws_lambda_function.user_management.*.arn, count.index)}"
+    input       = <<EOF
+{
+    "command": "./nubis-user-management",
+    "args": [
+        "-execType=consul",
+        "-useDynamo=true",
+        "-region=${var.aws_region}",
+        "-environment='${element(split(",", var.environments), count.index)}'",
+        "-service=nubis",
+        "-accountName=${var.account_name}",
+        "-consulDomain=nubis.allizom.org",
+        "-key=nubis/${element(split(",", var.environments), count.index)}/user-sync/config",
+        "-lambda=true"
     ]
 }
 EOF
