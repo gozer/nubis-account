@@ -1347,7 +1347,7 @@ resource "aws_iam_role" "user_management" {
         create_before_destroy = true
     }
 
-    name = "lambda_user_management-${var.aws_region}-${element(split(",", var.environments), count.index)}"
+    name = "user_management-${var.aws_region}-${element(split(",", var.environments), count.index)}"
 
     provisioner "local-exec" {
         command = "sleep 30"
@@ -1380,8 +1380,8 @@ resource "aws_iam_role_policy" "user_management" {
         create_before_destroy = true
     }
 
-    name = "user_management_policy-${var.aws_region}-${element(split(",", var.environments), count.index)}"
-    role = "${aws_iam_role.lambda-user-management.id}"
+    name = "user_management-${var.aws_region}-${element(split(",", var.environments), count.index)}"
+    role = "${element(aws_iam_role.user_management.*.arn, count.index)}"
     policy = <<EOF
 {
     "Version": "2012-10-17",
