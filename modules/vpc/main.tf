@@ -1416,6 +1416,10 @@ EOF
 resource "aws_lambda_function" "user_management" {
     count = "${var.enabled * var.enable_user_management * length(split(",", var.environments))}"
 
+    depends_on = [
+        "aws_iam_role_policy.user_management"
+    ]
+
     function_name   = "user_management-${element(split(",",var.environments), count.index)}"
     s3_bucket       = "nubis-stacks"
     s3_key          = "${var.nubis_version}/lambda/UserManagement.zip"
