@@ -1381,7 +1381,7 @@ resource "aws_iam_role_policy" "user_management" {
     }
 
     name = "user_management-${var.aws_region}-${element(split(",", var.environments), count.index)}"
-    role = "${element(aws_iam_role.user_management.*.arn, count.index)}"
+    role = "${element(aws_iam_role.user_management.*.id, count.index)}"
     policy = <<EOF
 {
     "Version": "2012-10-17",
