@@ -1,0 +1,5 @@
+*.yml filter=git-crypt diff=git-crypt
+*.yaml filter=git-crypt diff=git-crypt
+*.yml.tmpl filter=git-crypt diff=git-crypt
+*.yaml.tmpl filter=git-crypt diff=git-crypt
+.gitattributes !filter !diff
