@@ -1621,7 +1621,6 @@ resource template_file "user_management_config" {
         users_ldap_group            = "${var.user_management_users}"
     }
 }
-<<<<<<< HEAD
 
 resource "null_resource" "user_management_unicreds" {
     count = "${var.enabled * var.enable_user_management * length(split(",", var.environments))}"
@@ -1642,5 +1641,3 @@ resource "null_resource" "user_management_unicreds" {
         command = "echo \"${element(template_file.user_management_config.*.rendered, count.index)}\" | ${self.triggers.unicreds}/user-sync/config /dev/stdin ${self.triggers.context}"
     }
 }
-=======
->>>>>>> Initial add of user management config template
