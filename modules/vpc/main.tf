@@ -1544,3 +1544,27 @@ resource "aws_cloudwatch_event_target" "user_management_consul" {
 }
 EOF
 }
+
+resource template_file "user_management_config" {
+    count   = "${var.enabled * var.enable_user_management * length(split(",", var.environments))}"
+    template = "${file("${path.module}/user_management.yml.tmpl")}"
+    vars {
+        region              = "${var.aws_region}"
+        environment         = "${element(split(",", var.environments), count.index)}"
+        smtp_from_address   = "${var.user_management_smtp_from_address}"
+        smtp_username       = "${var.user_management_smtp_username}"
+        smtp_password       = "${var.user_management_smtp_password}"
+        smtp_host           = "${var.user_management_smtp_host}"
+        smtp_port           = "${var.user_management_smtp_port}"
+        ldap_server         = "${var.user_management_ldap_server}"
+        ldap_port           = "${var.user_management_ldap_port}"
+        ldap_base_dn        = "${var.user_management_ldap_base_dn}"
+        ldap_bind_user      = "${var.user_management_ldap_bind_user}"
+        ldap_bind_password  = "${var.user_management_ldap_bind_password}"
+        tls_cert            = "${replace(file("${path.cwd}/${var.user_management_tls_cert}"), "/\\n/", "\n        ")}"
+        tls_key             = "${replace(file("${path.cwd}/${var.user_management_tls_cert}"), "/\\n/", "\n        ")}"
+        global_admin_ldap_group     = "${var.user_management_global_admins}"
+        sudo_user_ldap_group        = "${var.user_management_sudo_users}"
+        users_ldap_group            = "${var.user_management_users}"
+    }
+}
