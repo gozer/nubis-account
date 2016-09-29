@@ -1068,6 +1068,23 @@ module "user_management" {
 
   credstash_key            = "${module.meta.CredstashKeyID}"
   credstash_db             = "${module.meta.CredstashDynamoDB}"
+
+  # user management
+  user_management_smtp_from_address = "${var.user_management_smtp_from_address}"
+  user_management_smtp_username     = "${var.user_management_smtp_username}"
+  user_management_smtp_password     = "${var.user_management_smtp_password}"
+  user_management_smtp_host         = "${var.user_management_smtp_host}"
+  user_management_smtp_port         = "${var.user_management_smtp_port}"
+  user_management_ldap_server       = "${var.user_management_ldap_server}"
+  user_management_ldap_port         = "${var.user_management_ldap_port}"
+  user_management_ldap_base_dn      = "${var.user_management_ldap_base_dn}"
+  user_management_ldap_bind_user        = "${var.user_management_ldap_bind_user}"
+  user_management_ldap_bind_password    = "${var.user_management_ldap_bind_password}"
+  user_management_tls_cert              = "${var.user_management_tls_cert}"
+  user_management_tls_key               = "${var.user_management_tls_key}"
+  user_management_global_admins         = "${var.user_management_global_admins}"
+  user_management_sudo_users            = "${var.user_management_sudo_users}"
+  user_management_users                 = "${var.user_management_users}"
 }
 
 #XXX: Move to a module
@@ -1574,7 +1591,7 @@ resource template_file "user_management_config" {
     }
 }
 
-resource "null_resource" "user_management_credstash" {
+resource "null_resource" "user_management_unicreds" {
     count = "${var.enabled * var.enable_user_management * length(split(",", var.environments))}"
 
     lifecycle {
@@ -1584,12 +1601,16 @@ resource "null_resource" "user_management_credstash" {
     triggers {
         region              = "${var.aws_region}"
         environment         = "${element(split(",", var.environments), count.index)}"
-        context             = "region=${var.aws_region} environment=${element(split(",", var.environments), count.index)} service=nubis"
+        context             = "-E region:${var.aws_region} -E environment:${element(split(",", var.environments), count.index)} -E service:nubis"
         rendered_template   = "${element(template_file.user_management_config.*.rendered, count.index)}"
-        credstash           = "credstash -r ${var.aws_region} put -a -k nubis/${element(split(",", var.environments), count.index)}"
+        unicreds            = "unicreds -r ${var.aws_region} put-file nubis/${element(split(",", var.environments), count.index)}"
     }
 
     provisioner "local-exec" {
-        command = "${self.triggers.credstash}/user-sync/config `echo \"${element(template_file.user_management_config.*.rendered, count.index)}\"` ${self.triggers.context}"
+        command = <<EOF
+        echo "${element(template_file.user_management_config.*.rendered, count.index)}" > /tmp/config.${element(split(",", var.environments), count.index)}.${var.aws_region}.yaml.tmp &&
+        ${self.triggers.unicreds}/user-sync/config /tmp/config.${element(split(",", var.environments), count.index)}.${var.aws_region}.yaml.tmp ${self.triggers.context} &&
+        rm -f /tmp/config.${element(split(",", var.environments), count.index)}.${var.aws_region}.yaml.tmp
+        EOF
     }
 }
