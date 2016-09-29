@@ -1548,6 +1548,11 @@ EOF
 resource template_file "user_management_config" {
     count   = "${var.enabled * var.enable_user_management * length(split(",", var.environments))}"
     template = "${file("${path.module}/user_management.yml.tmpl")}"
+
+    lifecycle {
+        create_before_destroy = true
+    }
+
     vars {
         region              = "${var.aws_region}"
         environment         = "${element(split(",", var.environments), count.index)}"
@@ -1577,25 +1582,14 @@ resource "null_resource" "user_management_credstash" {
     }
 
     triggers {
-        region                  = "${var.aws_region}"
-        environment             = "${element(split(",", var.environments))}"
-        context                 = "region=${var.aws_region} environment=${element(split(",", var.environments), count.index)} service=nubis"
-        smtp_from_address       = "${var.user_management_smtp_from_address}"
-        smtp_user               = "${var.user_management_smtp_username}"
-        smtp_host               = "${var.user_management_smtp_host}"
-        ldap_server             = "${var.user_management_ldap_server}"
-        ldap_port               = "${var.user_management_ldap_port}"
-        ldap_bind_user          = "${var.user_management_ldap_bind_user}"
-        ldap_bind_password      = "${var.user_management_ldap_bind_password}"
-        tls_cert                = "${file("${path.cwd}/${var.user_management_tls_cert}")}"
-        tls_key                 = "${file("${path.cwd}/${var.user_management_tls_cert}")}"
-        global_admin_ldap_group = "${var.user_management_global_admins}"
-        sudo_user_ldap_group    = "${var.user_management_sudo_users}"
-        users_ldap_group        = "${var.user_management_users}"
-        credstash               = "credstash -r ${var.aws_region} put -a -k nubis/${element(split(",", var.environments), count.index)}"
+        region              = "${var.aws_region}"
+        environment         = "${element(split(",", var.environments), count.index)}"
+        context             = "region=${var.aws_region} environment=${element(split(",", var.environments), count.index)} service=nubis"
+        rendered_template   = "${element(template_file.user_management_config.*.rendered, count.index)}"
+        credstash           = "credstash -r ${var.aws_region} put -a -k nubis/${element(split(",", var.environments), count.index)}"
     }
 
     provisioner "local-exec" {
-        command = "${self.triggers.credstash}/user-sync/config `echo \"${template_file.user_management_config.rendered}\"` ${self.triggers.context}"
+        command = "${self.triggers.credstash}/user-sync/config `echo \"${element(template_file.user_management_config.*.rendered, count.index)}\"` ${self.triggers.context}"
     }
 }
