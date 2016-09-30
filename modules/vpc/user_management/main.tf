@@ -229,14 +229,7 @@ resource "null_resource" "user_management_unicreds_iam" {
         credstash           = "unicreds -r ${var.region} put-file nubis/global"
     }
 
-    # Ugly, I can't just do a put with unicreds, and I have to use unicreds because
-    # credstash seems to complain when I use it wit this error:
-    # An error occurred (ValidationException) when calling the Query operation: One or more parameter values were invalid: Size of hashkey has exceeded the maximum size limit of2048 bytes
     provisioner "local-exec" {
-        command = <<EOF
-        echo "${template_file.user_management_config_iam.rendered}" > /tmp/config.global.${var.region}.yaml.tmp &&
-        ${self.triggers.credstash}/user-sync/config "/tmp/config.global.${var.region}.yaml.tmp" ${self.triggers.context} &&
-        rm -f /tmp/config.global.${var.region}.yaml.tmp
-        EOF
+        command = "echo \"${template_file.user_management_config_iam.rendered}\" | ${self.triggers.credstash}/user-sync/config /dev/stdin ${self.triggers.context}"
     }
 }

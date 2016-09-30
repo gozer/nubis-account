@@ -1607,10 +1607,6 @@ resource "null_resource" "user_management_unicreds" {
     }
 
     provisioner "local-exec" {
-        command = <<EOF
-        echo "${element(template_file.user_management_config.*.rendered, count.index)}" > /tmp/config.${element(split(",", var.environments), count.index)}.${var.aws_region}.yaml.tmp &&
-        ${self.triggers.unicreds}/user-sync/config /tmp/config.${element(split(",", var.environments), count.index)}.${var.aws_region}.yaml.tmp ${self.triggers.context} &&
-        rm -f /tmp/config.${element(split(",", var.environments), count.index)}.${var.aws_region}.yaml.tmp
-        EOF
+        command = "echo \"${element(template_file.user_management_config.*.rendered, count.index)}\" | ${self.triggers.unicreds}/user-sync/config /dev/stdin ${self.triggers.context}"
     }
 }
