@@ -26,13 +26,6 @@ LdapServer:
   LDAPBindUser: "${ldap_bind_user}"
   LDAPBindPassword: "${ldap_bind_password}"
   LDAPInsecure: false
-  StartTLS: true
-  TLSCrt: |
-    ${tls_cert}
-  CACrt:
-  TLSKey: |
-    ${tls_key}
-
   IAMGroupMapping:
     - GlobalAdmins:
       LDAPGroup: ${global_admin_ldap_group}
@@ -46,4 +39,10 @@ LdapServer:
       LDAPGroup: ${users_ldap_group}
       IAMPath: /nubis/readonly/
       ConsulPath: users
+  StartTLS: true
+  TLSCrt: |
+${tls_cert}
+  CACrt:
+  TLSKey: |
+${tls_key}
 
