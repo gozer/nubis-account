@@ -33,17 +33,17 @@ LdapServer:
   TLSKey: |
     ${tls_key}
 
-IAMGroupMapping:
-  - GlobalAdmins:
-    LDAPGroup: ${global_admin_ldap_group}
-    IAMPAth: /nubis/admin/
-    ConsulPath: global-admins
-  - SudoUsers:
-    LDAPGroup: ${sudo_user_ldap_group}
-    IAMPath: /nubis/readonly/
-    ConsulPath: sudo-users
-  - Users:
-    LDAPGroup: ${users_ldap_group}
-    IAMPath: /nubis/readonly/
-    ConsulPath: users
+  IAMGroupMapping:
+    - GlobalAdmins:
+      LDAPGroup: ${global_admin_ldap_group}
+      IAMPath: /nubis/admin/
+      ConsulPath: global-admins
+    - SudoUsers:
+      LDAPGroup: ${sudo_user_ldap_group}
+      IAMPath: /nubis/readonly/
+      ConsulPath: sudo-users
+    - Users:
+      LDAPGroup: ${users_ldap_group}
+      IAMPath: /nubis/readonly/
+      ConsulPath: users
 
