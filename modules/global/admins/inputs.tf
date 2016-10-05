@@ -24,3 +24,6 @@ variable nubis_version {
 variable ssh_key_name {
   default = "nubis"
 }
+
+variable create_users {
+}

@@ -15,6 +15,7 @@ module "global_admins" {
   nubis_version = "${var.nubis_version}"
 
   technical_contact = "${var.technical_contact}"
+  create_users      = "${(lookup(var.features, "user_management") + 1) % 2 }"
 }
 
 module "global_meta" {
