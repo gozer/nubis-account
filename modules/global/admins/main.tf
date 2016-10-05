@@ -16,7 +16,7 @@ output "ssh_key_name" {
 }
 
 resource "aws_iam_user" "admin" {
-  count = "${length(split(",",var.admin_users))}"
+  count = "${length(split(",",var.admin_users)) * var.create_users}"
   path  = "/nubis/admin/"
   name  = "${element(split(",",var.admin_users), count.index)}"
 
@@ -26,7 +26,7 @@ resource "aws_iam_user" "admin" {
 }
 
 resource "aws_iam_user" "guest" {
-  count = "${length(split(",",var.guest_users))}"
+  count = "${length(split(",",var.guest_users)) * var.create_users}"
   path  = "/nubis/guest/"
   name  = "${element(split(",",var.guest_users), count.index)}"
 
@@ -36,7 +36,7 @@ resource "aws_iam_user" "guest" {
 }
 
 resource "aws_iam_role_policy" "admin" {
-  count = "${length(split(",",var.admin_users))}"
+  count = "${length(split(",",var.admin_users)) * var.create_users}"
   name  = "${element(split(",",var.admin_users), count.index)}"
 
   # TF 0.6.x bug somehow, using element(aws_iam_role.admin.*.id, count.index) causes
@@ -73,7 +73,7 @@ resource "aws_iam_policy" "mfa" {
 }
 
 resource "aws_iam_role" "admin" {
-  count = "${length(split(",",var.admin_users))}"
+  count = "${length(split(",",var.admin_users)) * var.create_users}"
   path  = "/nubis/admin/"
   name  = "${element(split(",",var.admin_users), count.index)}"
 
@@ -93,7 +93,7 @@ EOF
 }
 
 resource "aws_iam_role" "readonly" {
-  count = 1
+  count = "${var.create_users}"
   path  = "/nubis/"
   name  = "readonly"
 
@@ -113,7 +113,7 @@ EOF
 }
 
 resource "aws_iam_access_key" "admins" {
-  count = "${length(split(",",var.admin_users))}"
+  count = "${length(split(",",var.admin_users)) * var.create_users}"
   user  = "${element(aws_iam_user.admin.*.name, count.index)}"
 }
 
