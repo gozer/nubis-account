@@ -118,7 +118,7 @@ resource "aws_iam_access_key" "admins" {
 }
 
 resource "aws_iam_access_key" "guests" {
-  count = "${length(split(",",var.guest_users))}"
+  count = "${length(split(",",var.guest_users)) * var.create_users}"
   user  = "${element(aws_iam_user.guest.*.name, count.index)}"
 }
 
@@ -138,9 +138,17 @@ resource "aws_iam_group" "read_only_users" {
 }
 
 resource "aws_iam_policy_attachment" "read_only" {
+  count      = "${var.create_users}"
   name       = "read-only-attachments"
-  groups     = ["${aws_iam_group.read_only_users.name}"]
   roles      = ["${aws_iam_role.readonly.name}"]
+  policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
+}
+
+resource "aws_iam_policy_attachment" "read_only_group" {
+  name    = "read-only-attachments-group"
+  groups  = [
+    "${aws_iam_group.read_only_users.name}"
+  ]
   policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
 }
 
@@ -182,6 +190,7 @@ POLICY
 }
 
 resource "aws_iam_group_membership" "admins" {
+  count = "${var.create_users}"
   name = "admins-group-membership"
 
   users = [
@@ -192,7 +201,7 @@ resource "aws_iam_group_membership" "admins" {
 }
 
 resource "aws_iam_group_membership" "guest" {
-  count = "${length(split(",",var.guest_users))}"
+  count = "${length(split(",",var.guest_users)) * var.create_users}"
   name  = "guest-group-membership"
 
   users = [
