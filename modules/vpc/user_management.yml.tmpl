@@ -1,0 +1,48 @@
+---
+Consul:
+  Server: 127.0.0.1:8500
+  Namespace: "environments/${environment}/global/nubis-users"
+
+AWS:
+  Region: "${region}"
+  SMTPFromAddress: "${smtp_from_address}"
+  SMTPUsername: "${smtp_username}"
+  SMTPPassword: "${smtp_password}"
+  SMTPHostname: "${smtp_host}"
+  SMTPPort:     "${smtp_port}"
+  AWSIgnoreUserList:
+    - nubis-bootstrap
+    - datadog
+    - gozer
+    - limed
+  AWSIgnorePathList:
+    - /
+    - /nubis/guest/
+    - /nubis/datadog/
+
+LdapServer:
+  LDAPHost: "ldaps://${ldap_server}:${ldap_port}/${ldap_base_dn}"
+  LDAPServer: "${ldap_server}"
+  LDAPBindUser: "${ldap_bind_user}"
+  LDAPBindPassword: "${ldap_bind_password}"
+  LDAPInsecure: false
+  IAMGroupMapping:
+    - GlobalAdmins:
+      LDAPGroup: ${global_admin_ldap_group}
+      IAMPath: /nubis/admin/
+      ConsulPath: global-admins
+    - SudoUsers:
+      LDAPGroup: ${sudo_user_ldap_group}
+      IAMPath: /nubis/readonly/
+      ConsulPath: sudo-users
+    - Users:
+      LDAPGroup: ${users_ldap_group}
+      IAMPath: /nubis/readonly/
+      ConsulPath: users
+  StartTLS: true
+  TLSCrt: |
+${tls_cert}
+  CACrt:
+  TLSKey: |
+${tls_key}
+
