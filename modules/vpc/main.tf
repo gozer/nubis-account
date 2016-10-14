@@ -1366,6 +1366,8 @@ resource "aws_s3_bucket_object" "public_state" {
               "instance_security_groups": "${element(aws_security_group.shared_services.*.id,count.index)},${element(aws_security_group.internet_access.*.id,count.index)},${element(aws_security_group.ssh.*.id,count.index)}",
               "private_subnets": "${element(aws_subnet.private.*.id, (3*count.index) + 0)},${element(aws_subnet.private.*.id, (3*count.index) + 1)},${element(aws_subnet.private.*.id, (3*count.index) + 2)}",
               "public_subnets": "${element(aws_subnet.public.*.id, (3*count.index) + 0)},${element(aws_subnet.public.*.id, (3*count.index) + 1)},${element(aws_subnet.public.*.id, (3*count.index) + 2)}",
+              "access_logging_bucket": ${jsonencode(element(split(",", module.fluent-collector.logging_buckets),count.index))},
+              "default_ssl_certificate": "${module.meta.DefaultServerCertificate}",
               "dummy": "dummy"
             },
             "resources": {}
