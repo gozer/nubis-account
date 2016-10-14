@@ -942,6 +942,7 @@ module "fluent-collector" {
   environments = "${var.environments}"
   aws_profile  = "${var.aws_profile}"
   aws_region   = "${var.aws_region}"
+  aws_account_id = "${var.aws_account_id}"
 
   lambda_uuid_arn = "${aws_lambda_function.UUID.arn}"
 
