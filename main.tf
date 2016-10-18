@@ -52,6 +52,7 @@ module "vpcs" {
   enable_consul       = "${lookup(var.features,"consul")}"
   enable_jumphost     = "${lookup(var.features,"jumphost")}"
   enable_fluent       = "${lookup(var.features,"fluent")}"
+  enable_monitoring   = "${lookup(var.features,"monitoring")}"
   enable_ci           = "${lookup(var.features,"ci")}"
   enable_opsec        = "${lookup(var.features,"opsec")}"
   enable_stack_compat = "${lookup(var.features,"stack_compat")}"

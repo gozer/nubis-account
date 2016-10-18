@@ -42,6 +42,8 @@ variable enable_jumphost {
 
 variable enable_fluent {
 }
+variable enable_monitoring {
+}
 
 variable enable_ci {
 }

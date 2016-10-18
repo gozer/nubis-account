@@ -938,6 +938,7 @@ module "fluent-collector" {
   source = "github.com/nubisproject/nubis-fluent-collector//nubis/terraform/multi?ref=master"
 
   enabled = "${var.enabled * var.enable_fluent}"
+  monitoring_enabled = "${var.enabled * var.enable_fluent * var.enable_monitoring}"
 
   environments = "${var.environments}"
   aws_profile  = "${var.aws_profile}"

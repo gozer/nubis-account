@@ -64,6 +64,7 @@ variable features {
     nat          = 1
     opsec        = 0
     user_management = 1
+    monitoring   = 0
   }
 }
 
