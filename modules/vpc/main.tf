@@ -965,6 +965,33 @@ module "fluent-collector" {
   service_name = "${var.account_name}"
 }
 
+module "monitoring" {
+  source = "github.com/nubisproject/nubis-prometheus//nubis/terraform?ref=master"
+
+  enabled = "${var.enabled * var.enable_monitoring}"
+
+  environments = "${var.environments}"
+  aws_profile  = "${var.aws_profile}"
+  aws_region   = "${var.aws_region}"
+
+  lambda_uuid_arn = "${aws_lambda_function.UUID.arn}"
+
+  key_name          = "${var.ssh_key_name}"
+  nubis_version     = "${var.nubis_version}"
+  technical_contact = "${var.technical_contact}"
+
+  vpc_ids    = "${join(",", aws_vpc.nubis.*.id)}"
+  subnet_ids = "${join(",", aws_subnet.private.*.id)}"
+
+  internet_access_security_groups = "${join(",",aws_security_group.internet_access.*.id)}"
+  shared_services_security_groups = "${join(",",aws_security_group.shared_services.*.id)}"
+  ssh_security_groups             = "${join(",",aws_security_group.ssh.*.id)}"
+  monitoring_security_groups      = "${join(",",aws_security_group.monitoring.*.id)}"
+
+  nubis_domain = "${var.nubis_domain}"
+  service_name = "${var.account_name}"
+}
+
 module "consul" {
   source = "../consul"
 
