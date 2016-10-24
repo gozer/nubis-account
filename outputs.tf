@@ -46,6 +46,10 @@ output "nameservers" {
   value = "${module.global_meta.nameservers}"
 }
 
+output "zone_name" {
+  value = "${module.global_meta.route53_master_zone_name}"
+}
+
 output "cloudhealth_assume_role_arn" {
   value = "${module.global_meta.cloudhealth_assume_role_arn}"
 }

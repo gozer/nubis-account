@@ -18,6 +18,10 @@ output "route53_master_zone_id" {
   value = "${aws_route53_zone.master_zone.id}"
 }
 
+output "route53_master_zone_name" {
+  value = "${aws_route53_zone.master_zone.name}"
+}
+
 output "cloudhealth_assume_role_arn" {
   value = "${module.cloudhealth.assume_role_arn}"
 }
