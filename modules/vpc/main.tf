@@ -900,7 +900,7 @@ resource "aws_iam_policy_attachment" "credstash" {
 
   #XXX: concat and compact should work here, but element() isn't a list, so BUG
   roles = [
-    "${split(",",replace(replace(concat(element(split(",",module.jumphost.iam_roles), count.index), ",", element(split(",",module.consul.iam_roles), count.index), ",", element(split(",",module.fluent-collector.iam_roles), count.index), ",", element(aws_iam_role.nat.*.id, count.index), ",", element(aws_iam_role.user_management.*.id, count.index), ",", element(split(",",replace(module.ci.iam_role, "/$/",replace(var.environments, "/[^,]+/","") )), count.index) ), "/(,+)/",","),"/(^,+|,+$)/", ""))}",
+    "${split(",",replace(replace(concat( element(split(",",module.monitoring.iam_roles), count.index), ",", element(split(",",module.jumphost.iam_roles), count.index), ",", element(split(",",module.consul.iam_roles), count.index), ",", element(split(",",module.fluent-collector.iam_roles), count.index), ",", element(aws_iam_role.nat.*.id, count.index), ",", element(aws_iam_role.user_management.*.id, count.index), ",", element(split(",",replace(module.ci.iam_role, "/$/",replace(var.environments, "/[^,]+/","") )), count.index) ), "/(,+)/",","),"/(^,+|,+$)/", ""))}",
   ]
 
   #XXX: Bug, puts the CI system in all environment roles
