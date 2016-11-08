@@ -107,6 +107,10 @@ module "vpcs" {
   fluentd_sqs_secret_keys = "${lookup(var.fluentd, "sqs_secret_keys")}"
   fluentd_sqs_regions     = "${lookup(var.fluentd, "sqs_regions")}"
 
+  # jumphost groups
+  jumphost_sudo_groups    = "${lookup(var.jumphost, "sudo_groups")}"
+  jumphost_user_groups    = "${lookup(var.jumphost, "user_groups")}"
+
   # user management
   user_management_smtp_from_address  = "${lookup(var.user_management, "smtp_from_address")}"
   user_management_smtp_username      = "${lookup(var.user_management, "smtp_username")}"

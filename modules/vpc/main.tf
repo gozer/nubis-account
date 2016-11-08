@@ -932,6 +932,9 @@ module "jumphost" {
   nubis_domain = "${var.nubis_domain}"
 
   service_name = "${var.account_name}"
+
+  nubis_sudo_groups = "${var.jumphost_sudo_groups}"
+  nubis_user_groups = "${var.jumphost_user_groups}"
 }
 
 module "fluent-collector" {

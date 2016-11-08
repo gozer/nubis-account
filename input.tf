@@ -146,6 +146,13 @@ variable user_management {
   }
 }
 
+variable jumphost {
+  default = {
+    sudo_groups = "nubis_global_admins"
+    user_groups = ""
+  }
+}
+
 variable fluentd {
   default = {
     sqs_queues      = ""
