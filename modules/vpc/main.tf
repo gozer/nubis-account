@@ -1131,7 +1131,6 @@ module "user_management" {
   user_management_ldap_bind_password = "${var.user_management_ldap_bind_password}"
   user_management_tls_cert           = "${var.user_management_tls_cert}"
   user_management_tls_key            = "${var.user_management_tls_key}"
-  user_management_global_admins      = "${var.user_management_global_admins}"
   user_management_sudo_users         = "${var.user_management_sudo_users}"
   user_management_users              = "${var.user_management_users}"
 }
@@ -1644,9 +1643,8 @@ resource template_file "user_management_config" {
     ldap_bind_password      = "${var.user_management_ldap_bind_password}"
     tls_cert                = "${replace(file("${path.cwd}/${var.user_management_tls_cert}"), "/(.*)\\n/", "    $1\n")}"
     tls_key                 = "${replace(file("${path.cwd}/${var.user_management_tls_key}"), "/(.*)\\n/", "    $1\n")}"
-    global_admin_ldap_group = "${var.user_management_global_admins}"
-    sudo_user_ldap_group    = "${var.user_management_sudo_users}"
-    users_ldap_group        = "${var.user_management_users}"
+    sudo_user_ldap_group    = "${replace(var.user_management_sudo_users, ",", "|")}"
+    users_ldap_group        = "${replace(var.user_management_users, ",", "|")}"
   }
 }
 
@@ -1666,6 +1664,6 @@ resource "null_resource" "user_management_unicreds" {
   }
 
   provisioner "local-exec" {
-    command = "echo \"${element(template_file.user_management_config.*.rendered, count.index)}\" | ${self.triggers.unicreds}/user-sync/config /dev/stdin ${self.triggers.context}"
+    command = "echo '${element(template_file.user_management_config.*.rendered, count.index)}' | ${self.triggers.unicreds}/user-sync/config /dev/stdin ${self.triggers.context}"
   }
 }

@@ -94,7 +94,6 @@ module "us-east-1" {
   user_management_ldap_bind_password = "${var.user_management_ldap_bind_password}"
   user_management_tls_cert           = "${var.user_management_tls_cert}"
   user_management_tls_key            = "${var.user_management_tls_key}"
-  user_management_global_admins      = "${var.user_management_global_admins}"
   user_management_sudo_users         = "${var.user_management_sudo_users}"
   user_management_users              = "${var.user_management_users}"
 }
@@ -196,7 +195,6 @@ module "us-west-2" {
   user_management_ldap_bind_password = "${var.user_management_ldap_bind_password}"
   user_management_tls_cert           = "${var.user_management_tls_cert}"
   user_management_tls_key            = "${var.user_management_tls_key}"
-  user_management_global_admins      = "${var.user_management_global_admins}"
   user_management_sudo_users         = "${var.user_management_sudo_users}"
   user_management_users              = "${var.user_management_users}"
 }

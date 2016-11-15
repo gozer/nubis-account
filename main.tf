@@ -127,7 +127,6 @@ module "vpcs" {
   user_management_ldap_bind_password = "${lookup(var.user_management, "ldap_bind_password")}"
   user_management_tls_cert           = "${lookup(var.user_management, "tls_cert")}"
   user_management_tls_key            = "${lookup(var.user_management, "tls_key")}"
-  user_management_global_admins      = "${lookup(var.user_management, "global_admins")}"
   user_management_sudo_users         = "${lookup(var.user_management, "sudo_users")}"
   user_management_users              = "${lookup(var.user_management, "users")}"
 }

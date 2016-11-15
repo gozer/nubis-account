@@ -143,8 +143,7 @@ variable user_management {
     ldap_bind_password = "xxxxx"
     tls_cert           = "user_management.crt"
     tls_key            = "user_management.key"
-    global_admins      = "nubis_global_admins"
-    sudo_users         = "nubis_sudo_users"
+    sudo_users         = "nubis_global_admins,nubis_sudo_users"
     users              = "nubis_users"
   }
 }

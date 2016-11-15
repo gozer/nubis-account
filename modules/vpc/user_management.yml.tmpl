@@ -27,18 +27,12 @@ LdapServer:
   LDAPBindPassword: "${ldap_bind_password}"
   LDAPInsecure: false
   IAMGroupMapping:
-    - GlobalAdmins:
-      LDAPGroup: ${global_admin_ldap_group}
-      IAMPath: /nubis/admin/
-      ConsulPath: global-admins
     - SudoUsers:
-      LDAPGroup: ${sudo_user_ldap_group}
-      IAMPath: /nubis/readonly/
-      ConsulPath: sudo-users
+      LDAPGroup: "${sudo_user_ldap_group}"
+      IAMPath: /nubis/admin/
     - Users:
-      LDAPGroup: ${users_ldap_group}
+      LDAPGroup: "${users_ldap_group}"
       IAMPath: /nubis/readonly/
-      ConsulPath: users
   StartTLS: true
   TLSCrt: |
 ${tls_cert}

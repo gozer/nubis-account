@@ -209,9 +209,8 @@ resource template_file "user_management_config_iam" {
     ldap_bind_password      = "${var.user_management_ldap_bind_password}"
     tls_cert                = "${replace(file("${path.cwd}/${var.user_management_tls_cert}"), "/(.*)\\n/", "    $1\n")}"
     tls_key                 = "${replace(file("${path.cwd}/${var.user_management_tls_key}"), "/(.*)\\n/", "    $1\n")}"
-    global_admin_ldap_group = "${var.user_management_global_admins}"
-    sudo_user_ldap_group    = "${var.user_management_sudo_users}"
-    users_ldap_group        = "${var.user_management_users}"
+    sudo_user_ldap_group    = "${replace(var.user_management_sudo_users, ",", "|")}"
+    users_ldap_group        = "${replace(var.user_management_users, ",", "|")}"
   }
 }
 
