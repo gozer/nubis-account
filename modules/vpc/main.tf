@@ -938,9 +938,7 @@ module "jumphost" {
 }
 
 module "fluent-collector" {
-  #source = "github.com/nubisproject/nubis-fluent-collector//nubis/terraform/multi?ref=master"
-  source = "github.com/limed/nubis-fluent-collector//nubis/terraform/multi?ref=75f20f6c6efaa279bf9d3e79a1b86c377cd89441"
-
+  source = "github.com/nubisproject/nubis-fluent-collector//nubis/terraform/multi?ref=master"
 
   enabled            = "${var.enabled * var.enable_fluent}"
   monitoring_enabled = "${var.enabled * var.enable_fluent * var.enable_monitoring}"
