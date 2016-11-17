@@ -161,5 +161,7 @@ variable fluentd {
     sqs_access_keys = ""
     sqs_secret_keys = ""
     sqs_regions     = ""
+    sudo_groups     = "nubis_global_admins"
+    user_groups     = ""
   }
 }

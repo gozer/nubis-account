@@ -938,7 +938,9 @@ module "jumphost" {
 }
 
 module "fluent-collector" {
-  source = "github.com/nubisproject/nubis-fluent-collector//nubis/terraform/multi?ref=master"
+  #source = "github.com/nubisproject/nubis-fluent-collector//nubis/terraform/multi?ref=master"
+  source = "github.com/limed/nubis-fluent-collector//nubis/terraform/multi?ref=75f20f6c6efaa279bf9d3e79a1b86c377cd89441"
+
 
   enabled            = "${var.enabled * var.enable_fluent}"
   monitoring_enabled = "${var.enabled * var.enable_fluent * var.enable_monitoring}"
@@ -973,6 +975,9 @@ module "fluent-collector" {
   sqs_access_keys = "${var.fluentd_sqs_access_keys}"
   sqs_secret_keys = "${var.fluentd_sqs_secret_keys}"
   sqs_regions     = "${var.fluentd_sqs_regions}"
+
+  nubis_sudo_groups = "${var.fluentd_sudo_groups}"
+  nubis_user_groups = "${var.fluentd_user_groups}"
 }
 
 module "monitoring" {

@@ -142,5 +142,9 @@ variable fluentd_sqs_secret_keys {}
 
 variable fluentd_sqs_regions {}
 
+variable fluentd_sudo_groups {}
+
+variable fluentd_user_groups {}
+
 variable jumphost_sudo_groups {}
 variable jumphost_user_groups {}
