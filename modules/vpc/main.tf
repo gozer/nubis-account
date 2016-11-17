@@ -1043,6 +1043,9 @@ module "consul" {
   service_name = "${var.account_name}"
 
   datadog_api_key = "${var.datadog_api_key}"
+
+  nubis_sudo_groups = "${var.consul_sudo_groups}"
+  nubis_user_groups = "${var.consul_user_groups}"
 }
 
 module "ci-uuid" {

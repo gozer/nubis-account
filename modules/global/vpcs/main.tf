@@ -53,6 +53,8 @@ module "us-east-1" {
 
   consul_secret           = "${var.consul_secret}"
   consul_master_acl_token = "${var.consul_master_acl_token}"
+  consul_sudo_groups      = "${var.consul_sudo_groups}"
+  consul_user_groups      = "${var.consul_user_groups}"
 
   datadog_api_key = "${var.datadog_api_key}"
 
@@ -156,6 +158,8 @@ module "us-west-2" {
 
   consul_secret           = "${var.consul_secret}"
   consul_master_acl_token = "${var.consul_master_acl_token}"
+  consul_sudo_groups      = "${var.consul_sudo_groups}"
+  consul_user_groups      = "${var.consul_user_groups}"
 
   datadog_api_key = "${var.datadog_api_key}"
 

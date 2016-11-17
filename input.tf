@@ -38,6 +38,8 @@ variable consul {
   default = {
     master_acl_token = "00000000-0000-0000-0000-000000000000"
     secret           = "AAAAAAAAAAAAAAAAAAAAAA=="
+    sudo_groups      = "nubis_global_admins"
+    user_groups      = ""
   }
 }
 

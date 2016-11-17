@@ -41,3 +41,7 @@ variable my_ip {}
 variable lambda_uuid_arn {}
 
 variable datadog_api_key {}
+
+variable nubis_sudo_groups {}
+
+variable nubis_user_groups {}

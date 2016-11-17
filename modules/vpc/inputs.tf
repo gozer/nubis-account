@@ -42,6 +42,10 @@ variable consul_secret {}
 
 variable consul_master_acl_token {}
 
+variable consul_sudo_groups {}
+
+variable consul_user_groups {}
+
 variable enable_jumphost {}
 
 variable enable_fluent {}
