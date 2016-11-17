@@ -31,5 +31,5 @@ module "consul" {
   datadog_api_key = "${var.datadog_api_key}"
 
   nubis_sudo_groups = "${var.nubis_sudo_groups}"
-  nubis_sudo_groups = "${var.nubis_user_groups}"
+  nubis_user_groups = "${var.nubis_user_groups}"
 }
