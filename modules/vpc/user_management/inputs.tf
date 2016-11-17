@@ -38,6 +38,6 @@ variable user_management_tls_cert {}
 
 variable user_management_tls_key {}
 
-variable user_management_sudo_users {}
+variable user_management_sudo_groups {}
 
-variable user_management_users {}
+variable user_management_user_groups {}
