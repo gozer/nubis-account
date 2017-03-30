@@ -19,7 +19,7 @@ variable environments {
 variable environments_networks {}
 
 variable admin_users {
-  default = "gozer,limed,riweiss,jcrowe"
+  default = "gozer,limed,jcrowe"
 }
 
 variable guest_users {
@@ -124,7 +124,7 @@ variable monitoring {
   default = {
     slack_url             = ""
     slack_channel         = "#monitoring"
-    notification_email    = "gozer+prometheus@mozilla.com"
+    notification_email    = "nubis-team@mozilla.com"
     pagerduty_service_key = ""
     sudo_groups           = "nubis_global_admins"
     user_groups           = ""

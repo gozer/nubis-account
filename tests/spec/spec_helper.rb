@@ -6,7 +6,7 @@ require 'pp'
 class Nubis
   @@hcl = Rhcl.parse(File.read(ENV['NUBIS_ACCOUNT_VARS']))
   
-  pp @@hcl
+  #pp @@hcl
 
   def self.account_id
     @@sts ||= Aws::STS::Client.new()

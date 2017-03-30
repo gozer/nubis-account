@@ -57,7 +57,7 @@ end
 for admin_user in Nubis.admin_users
   describe iam_user(admin_user) do
     user_arn = 'arn:aws:iam::' + account_id + ':user/nubis/admin/' + admin_user
-    wrong_user_arn = 'arn:aws:iam::' + account_id + ':user/' + admin_user
+
     it { should exist }
     it { should belong_to_iam_group("Administrators") }
     it { should_not belong_to_iam_group("ReadOnlyUsers") }

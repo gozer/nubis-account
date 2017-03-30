@@ -695,7 +695,6 @@ resource "aws_network_interface" "private-nat" {
 
   lifecycle {
     create_before_destroy = true
-    #ignore_changes        = ["attachment"]
   }
 
   subnet_id = "${element(aws_subnet.private.*.id, count.index)}"

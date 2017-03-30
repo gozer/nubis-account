@@ -135,13 +135,6 @@ EOF
 
 # XXX: Duplicated here to avoid chicken-and-egg with VPCs
 resource "aws_lambda_function" "GlobalUUID" {
-  lifecycle {
-    #create_before_destroy = true
-    ignore_changes = [
-      "runtime"
-    ]
-  }
-
   function_name = "GlobalUUID"
   s3_bucket     = "nubis-stacks-${var.aws_region}"
   s3_key        = "${var.nubis_version}/lambda/UUID.zip"

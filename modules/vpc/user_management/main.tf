@@ -46,12 +46,6 @@ resource "aws_lambda_function" "user_management" {
   memory_size   = 128
   runtime       = "nodejs4.3"
   timeout       = "300"
-
-  lifecycle {
-    ignore_changes = [
-      "runtime"
-    ]
-  }
 }
 
 # Took this from the vpc module, this is to allow
