@@ -879,7 +879,7 @@ resource "aws_iam_instance_profile" "nat" {
 }
 
 module "jumphost" {
-  source = "github.com/nubisproject/nubis-jumphost//nubis/terraform?ref=v1.4.1"
+  source = "github.com/nubisproject/nubis-jumphost//nubis/terraform?ref=v1.4.2"
 
   enabled = "${var.enabled * var.enable_jumphost}"
 
@@ -915,7 +915,7 @@ resource "aws_iam_role_policy_attachment" "fluent" {
 }
 
 module "fluent-collector" {
-  source = "github.com/nubisproject/nubis-fluent-collector//nubis/terraform/multi?ref=v1.4.1"
+  source = "github.com/nubisproject/nubis-fluent-collector//nubis/terraform/multi?ref=v1.4.2"
 
   enabled            = "${var.enabled * var.enable_fluent}"
   monitoring_enabled = "${var.enabled * var.enable_fluent * var.enable_monitoring}"
@@ -963,7 +963,7 @@ resource "aws_iam_role_policy_attachment" "monitoring" {
 }
 
 module "monitoring" {
-  source = "github.com/nubisproject/nubis-prometheus//nubis/terraform?ref=v1.4.1"
+  source = "github.com/nubisproject/nubis-prometheus//nubis/terraform?ref=v1.4.2"
 
   enabled = "${var.enabled * var.enable_monitoring}"
 
@@ -1074,7 +1074,7 @@ resource "aws_iam_role_policy_attachment" "ci" {
 }
 
 module "ci" {
-  source = "github.com/nubisproject/nubis-ci//nubis/terraform?ref=v1.4.1"
+  source = "github.com/nubisproject/nubis-ci//nubis/terraform?ref=v1.4.2"
 
   enabled = "${var.enabled * var.enable_ci * ((1 + signum(index(concat(split(",", var.aws_regions), list(var.aws_region)),var.aws_region))) % 2 )}"
 
