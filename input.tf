@@ -128,6 +128,7 @@ variable monitoring {
     sudo_groups           = "nubis_global_admins"
     user_groups           = ""
     password              = ""
+    version               = ""
   }
 }
 

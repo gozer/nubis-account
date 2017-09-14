@@ -119,6 +119,7 @@ module "vpcs" {
   monitoring_sudo_groups           = "${lookup(var.monitoring, "sudo_groups")}"
   monitoring_user_groups           = "${lookup(var.monitoring, "user_groups")}"
   monitoring_password              = "${lookup(var.monitoring, "password")}"
+  monitoring_version               = "${lookup(var.monitoring, "version")}"
 
   # fluentd
   fluentd                 = "${var.fluentd}"

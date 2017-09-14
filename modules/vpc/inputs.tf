@@ -92,6 +92,8 @@ variable monitoring_user_groups {}
 
 variable monitoring_password {}
 
+variable monitoring_version {}
+
 variable ci_project {}
 
 variable ci_git_repo {}

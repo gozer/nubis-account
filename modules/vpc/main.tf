@@ -1034,7 +1034,7 @@ module "monitoring" {
   lambda_uuid_arn = "${aws_lambda_function.UUID.arn}"
 
   key_name          = "${var.ssh_key_name}"
-  nubis_version     = "${var.nubis_version}"
+  nubis_version     = "${coalesce(var.monitoring_version, var.nubis_version)}"
   technical_contact = "${var.technical_contact}"
 
   vpc_ids    = "${join(",", aws_vpc.nubis.*.id)}"

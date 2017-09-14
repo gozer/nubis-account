@@ -82,6 +82,7 @@ module "us-east-1" {
   monitoring_sudo_groups           = "${var.monitoring_sudo_groups}"
   monitoring_user_groups           = "${var.monitoring_user_groups}"
   monitoring_password              = "${var.monitoring_password}"
+  monitoring_version               = "${var.monitoring_version}"
 
   # fluentd
   fluentd                 = "${var.fluentd}"
@@ -217,6 +218,7 @@ module "us-west-2" {
   monitoring_sudo_groups           = "${var.monitoring_sudo_groups}"
   monitoring_user_groups           = "${var.monitoring_user_groups}"
   monitoring_password              = "${var.monitoring_password}"
+  monitoring_version               = "${var.monitoring_version}"
 
   # fluentd
   fluentd                 = "${var.fluentd}"
