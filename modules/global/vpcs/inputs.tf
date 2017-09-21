@@ -26,6 +26,8 @@ variable consul_sudo_groups {}
 
 variable consul_user_groups {}
 
+variable consul_version {}
+
 variable enable_vpc {}
 
 variable enable_jumphost {}

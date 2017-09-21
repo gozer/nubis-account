@@ -94,6 +94,7 @@ module "vpcs" {
   consul_master_acl_token = "${lookup(var.consul, "master_acl_token")}"
   consul_sudo_groups      = "${lookup(var.consul, "sudo_groups")}"
   consul_user_groups      = "${lookup(var.consul, "user_groups")}"
+  consul_version          = "${lookup(var.consul, "version")}"
 
   datadog_api_key = "${lookup(var.datadog, "api_key")}"
 

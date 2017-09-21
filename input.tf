@@ -40,6 +40,7 @@ variable consul {
     secret           = "AAAAAAAAAAAAAAAAAAAAAA=="
     sudo_groups      = "nubis_global_admins"
     user_groups      = ""
+    version          = ""
   }
 }
 
