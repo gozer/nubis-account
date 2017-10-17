@@ -1,6 +1,6 @@
 # Change Log
 
-## [v2.0.1](https://github.com/nubisproject/nubis-deploy/tree/v2.0.1) (2017-10-13)
+## [v2.0.1](https://github.com/nubisproject/nubis-deploy/tree/v2.0.1) (2017-10-17)
 [Full Changelog](https://github.com/nubisproject/nubis-deploy/compare/v2.0.0...v2.0.1)
 
 **Implemented enhancements:**
@@ -19,6 +19,7 @@
 - \[datadog\] Use Role delegation for setting up AWS integration [\#89](https://github.com/nubisproject/nubis-deploy/issues/89)
 - Create a module framework to make Atlas optionnal [\#21](https://github.com/nubisproject/nubis-deploy/issues/21)
 - Move JSON policy payloads into separate files [\#9](https://github.com/nubisproject/nubis-deploy/issues/9)
+- Tag v2.0.1 release [\#331](https://github.com/nubisproject/nubis-deploy/issues/331)
 - Tag v2.0.1 release [\#325](https://github.com/nubisproject/nubis-deploy/issues/325)
 
 **Merged pull requests:**
