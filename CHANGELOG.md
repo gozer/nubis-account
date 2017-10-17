@@ -19,9 +19,12 @@
 - \[datadog\] Use Role delegation for setting up AWS integration [\#89](https://github.com/nubisproject/nubis-deploy/issues/89)
 - Create a module framework to make Atlas optionnal [\#21](https://github.com/nubisproject/nubis-deploy/issues/21)
 - Move JSON policy payloads into separate files [\#9](https://github.com/nubisproject/nubis-deploy/issues/9)
+- Tag v2.0.1 release [\#325](https://github.com/nubisproject/nubis-deploy/issues/325)
 
 **Merged pull requests:**
 
+- Merge v2.0.1 release into develop. \[skip ci\] [\#327](https://github.com/nubisproject/nubis-deploy/pull/327) ([tinnightcap](https://github.com/tinnightcap))
+- Update CHANGELOG for v2.0.1 release \[skip ci\] [\#326](https://github.com/nubisproject/nubis-deploy/pull/326) ([tinnightcap](https://github.com/tinnightcap))
 - Expose ci instance\_type and root\_storage\_size [\#323](https://github.com/nubisproject/nubis-deploy/pull/323) ([gozer](https://github.com/gozer))
 
 ## [v2.0.0](https://github.com/nubisproject/nubis-deploy/tree/v2.0.0) (2017-10-06)
