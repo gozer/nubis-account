@@ -931,7 +931,7 @@ resource "aws_iam_role_policy_attachment" "consul" {
 }
 
 module "consul" {
-  source = "github.com/nubisproject/nubis-consul//nubis/terraform?ref=v2.0.0"
+  source = "github.com/nubisproject/nubis-consul//nubis/terraform?ref=v2.0.1"
 
   enabled = "${var.enabled * var.enable_consul}"
 
