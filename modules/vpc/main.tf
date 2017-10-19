@@ -592,7 +592,7 @@ module "nat-image" {
   source = "../images"
 
   region = "${var.aws_region}"
-  version = "${var.nubis_version}"
+  version = "${coalesce(var.nat_version, var.nubis_version)}"
 
   project = "nubis-nat"
 }
@@ -645,7 +645,7 @@ resource "aws_autoscaling_group" "nat" {
 
   tag {
     key                 = "Name"
-    value               = "NAT (${var.nubis_version}) for ${var.account_name} in ${element(var.arenas, count.index/2)}/${lookup(var.nat_side,count.index%2)}"
+    value               = "NAT (${coalesce(var.nat_version, var.nubis_version)}) for ${var.account_name} in ${element(var.arenas, count.index/2)}/${lookup(var.nat_side,count.index%2)}"
     propagate_at_launch = true
   }
 

@@ -146,6 +146,7 @@ variable sso_version {}
 
 variable nat_sudo_groups {}
 variable nat_user_groups {}
+variable nat_version {}
 
 variable mig {
   type = "map"

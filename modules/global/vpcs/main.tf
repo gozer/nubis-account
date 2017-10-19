@@ -67,6 +67,7 @@ module "us-east-1" {
   # nat
   nat_sudo_groups                 = "${var.nat_sudo_groups}"
   nat_user_groups                 = "${var.nat_user_groups}"
+  nat_version                     = "${var.nat_version}"
 
   # monitoring
   monitoring_slack_url             = "${var.monitoring_slack_url}"
@@ -196,6 +197,7 @@ module "us-west-2" {
   # nat
   nat_sudo_groups               = "${var.nat_sudo_groups}"
   nat_user_groups               = "${var.nat_user_groups}"
+  nat_version                   = "${var.nat_version}"
 
   # monitoring
   monitoring_slack_url             = "${var.monitoring_slack_url}"
