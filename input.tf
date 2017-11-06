@@ -160,6 +160,7 @@ variable jumphost {
   default = {
     sudo_groups = "nubis_global_admins"
     user_groups = ""
+    version     = ""
   }
 }
 
@@ -182,6 +183,7 @@ variable fluentd {
     instance_type   = ""
     sudo_groups     = "nubis_global_admins"
     user_groups     = ""
+    version         = ""
   }
 }
 

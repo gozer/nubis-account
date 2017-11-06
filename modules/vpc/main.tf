@@ -804,7 +804,7 @@ module "fluent-collector" {
   aws_region     = "${var.aws_region}"
 
   key_name          = "${var.ssh_key_name}"
-  nubis_version     = "${coalesce(lookup(var.fluentd, "version"), var.nubis_version)}"
+  nubis_version     = "${coalesce(var.fluentd_version, var.nubis_version)}"
   technical_contact = "${var.technical_contact}"
 
   zone_id = "${module.meta.HostedZoneId}"

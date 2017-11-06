@@ -120,6 +120,7 @@ module "vpcs" {
 
   # fluentd
   fluentd                 = "${var.fluentd}"
+  fluentd_version         = "${lookup(var.fluentd, "version")}"
 
   # jumphost groups
   jumphost_sudo_groups    = "${lookup(var.jumphost, "sudo_groups")}"

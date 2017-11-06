@@ -83,6 +83,7 @@ module "us-east-1" {
 
   # fluentd
   fluentd                 = "${var.fluentd}"
+  fluentd_version         = "${var.fluentd_version}"
 
   # jumphost user groups
   jumphost_sudo_groups    = "${var.jumphost_sudo_groups}"
@@ -216,6 +217,7 @@ module "us-west-2" {
 
   # fluentd
   fluentd                 = "${var.fluentd}"
+  fluentd_version         = "${var.fluentd_version}"
 
   # Jumphost user groups
   jumphost_sudo_groups    = "${var.jumphost_sudo_groups}"

@@ -156,6 +156,8 @@ variable fluentd {
   type = "map"
 }
 
+variable fluentd_version {}
+
 variable jumphost_sudo_groups {}
 variable jumphost_user_groups {}
 variable jumphost_version {}
