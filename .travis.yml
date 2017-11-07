@@ -4,7 +4,7 @@ addons:
     sources:
     - debian-sid
     packages:
-    - libssl1.0.0
+    - libssl1.0.2
 before_install:
 - wget --debug --no-check-certificate -v -O terraform.zip "https://releases.hashicorp.com/terraform/0.8.8/terraform_0.8.8_linux_amd64.zip"
 - unzip -o terraform.zip -d $HOME/bin
