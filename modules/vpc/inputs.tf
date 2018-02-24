@@ -76,6 +76,14 @@ variable monitoring_notification_email {}
 
 variable monitoring_pagerduty_service_key {}
 
+variable monitoring_pagerduty_critical_platform_service_key {}
+
+variable monitoring_pagerduty_non_critical_platform_service_key {}
+
+variable monitoring_pagerduty_critical_application_service_key {}
+
+variable monitoring_pagerduty_non_critical_application_service_key {}
+
 variable monitoring_sudo_groups {}
 
 variable monitoring_user_groups {}

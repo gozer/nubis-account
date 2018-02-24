@@ -71,6 +71,11 @@ variable monitoring_version {}
 variable monitoring_instance_type {}
 variable monitoring_swap_size_meg {}
 
+variable monitoring_pagerduty_critical_platform_service_key {}
+variable monitoring_pagerduty_non_critical_platform_service_key {}
+variable monitoring_pagerduty_critical_application_service_key {}
+variable monitoring_pagerduty_non_critical_application_service_key {}
+
 variable ci {
   type = "map"
 }

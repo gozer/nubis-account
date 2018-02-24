@@ -816,7 +816,7 @@ resource "aws_iam_role_policy_attachment" "monitoring" {
 }
 
 module "monitoring" {
-  source = "github.com/nubisproject/nubis-prometheus//nubis/terraform?ref=v2.1.0"
+  source = "github.com/nubisproject/nubis-prometheus//nubis/terraform?ref=develop"
 
   enabled = "${var.enabled * var.enable_monitoring}"
 
@@ -851,6 +851,11 @@ module "monitoring" {
   slack_channel         = "${var.monitoring_slack_channel}"
   notification_email    = "${var.monitoring_notification_email}"
   pagerduty_service_key = "${var.monitoring_pagerduty_service_key}"
+
+  pagerduty_critical_platform_service_key         = "${var.monitoring_pagerduty_critical_platform_service_key}"
+  pagerduty_non_critical_platform_service_key     = "${var.monitoring_pagerduty_non_critical_platform_service_key}"
+  pagerduty_critical_application_service_key      = "${var.monitoring_pagerduty_critical_application_service_key}"
+  pagerduty_non_critical_application_service_key  = "${var.monitoring_pagerduty_non_critical_application_service_key}"
 
   nubis_sudo_groups = "${var.monitoring_sudo_groups}"
   nubis_user_groups = "${var.monitoring_user_groups}"

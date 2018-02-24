@@ -106,6 +106,11 @@ module "vpcs" {
   monitoring_instance_type         = "${lookup(var.monitoring, "instance_type")}"
   monitoring_swap_size_meg         = "${lookup(var.monitoring, "swap_size_meg")}"
 
+  monitoring_pagerduty_critical_platform_service_key        = "${lookup(var.monitoring, "pagerduty_critical_platform_service_key")}"
+  monitoring_pagerduty_non_critical_platform_service_key    = "${lookup(var.monitoring, "pagerduty_non_critical_platform_service_key")}"
+  monitoring_pagerduty_critical_application_service_key     = "${lookup(var.monitoring, "pagerduty_critical_application_service_key")}"
+  monitoring_pagerduty_non_critical_application_service_key = "${lookup(var.monitoring, "pagerduty_non_critical_application_service_key")}"
+
   # fluentd
   fluentd         = "${var.fluentd}"
   fluentd_version = "${lookup(var.fluentd, "version")}"

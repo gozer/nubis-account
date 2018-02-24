@@ -69,6 +69,12 @@ module "us-east-1" {
   monitoring_instance_type         = "${var.monitoring_instance_type}"
   monitoring_swap_size_meg         = "${var.monitoring_swap_size_meg}"
 
+  # Pagerduty
+  monitoring_pagerduty_critical_platform_service_key          = "${var.monitoring_pagerduty_critical_platform_service_key}"
+  monitoring_pagerduty_non_critical_platform_service_key      = "${var.monitoring_pagerduty_non_critical_platform_service_key}"
+  monitoring_pagerduty_critical_application_service_key       = "${var.monitoring_pagerduty_critical_application_service_key}"
+  monitoring_pagerduty_non_critical_application_service_key   = "${var.monitoring_pagerduty_non_critical_application_service_key}"
+
   # fluentd
   fluentd         = "${var.fluentd}"
   fluentd_version = "${var.fluentd_version}"
@@ -191,6 +197,12 @@ module "us-west-2" {
   monitoring_version               = "${var.monitoring_version}"
   monitoring_instance_type         = "${var.monitoring_instance_type}"
   monitoring_swap_size_meg         = "${var.monitoring_swap_size_meg}"
+
+  # Pagerduty
+  monitoring_pagerduty_critical_platform_service_key          = "${var.monitoring_pagerduty_critical_platform_service_key}"
+  monitoring_pagerduty_non_critical_platform_service_key      = "${var.monitoring_pagerduty_non_critical_platform_service_key}"
+  monitoring_pagerduty_critical_application_service_key       = "${var.monitoring_pagerduty_critical_application_service_key}"
+  monitoring_pagerduty_non_critical_application_service_key   = "${var.monitoring_pagerduty_non_critical_application_service_key}"
 
   # fluentd
   fluentd         = "${var.fluentd}"
