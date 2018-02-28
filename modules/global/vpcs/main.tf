@@ -58,16 +58,15 @@ module "us-east-1" {
   nat_version     = "${var.nat_version}"
 
   # monitoring
-  monitoring_slack_url             = "${var.monitoring_slack_url}"
-  monitoring_slack_channel         = "${var.monitoring_slack_channel}"
-  monitoring_notification_email    = "${var.monitoring_notification_email}"
-  monitoring_pagerduty_service_key = "${var.monitoring_pagerduty_service_key}"
-  monitoring_sudo_groups           = "${var.monitoring_sudo_groups}"
-  monitoring_user_groups           = "${var.monitoring_user_groups}"
-  monitoring_password              = "${var.monitoring_password}"
-  monitoring_version               = "${var.monitoring_version}"
-  monitoring_instance_type         = "${var.monitoring_instance_type}"
-  monitoring_swap_size_meg         = "${var.monitoring_swap_size_meg}"
+  monitoring_slack_url          = "${var.monitoring_slack_url}"
+  monitoring_slack_channel      = "${var.monitoring_slack_channel}"
+  monitoring_notification_email = "${var.monitoring_notification_email}"
+  monitoring_sudo_groups        = "${var.monitoring_sudo_groups}"
+  monitoring_user_groups        = "${var.monitoring_user_groups}"
+  monitoring_password           = "${var.monitoring_password}"
+  monitoring_version            = "${var.monitoring_version}"
+  monitoring_instance_type      = "${var.monitoring_instance_type}"
+  monitoring_swap_size_meg      = "${var.monitoring_swap_size_meg}"
 
   # Pagerduty
   monitoring_pagerduty_critical_platform_service_key        = "${var.monitoring_pagerduty_critical_platform_service_key}"
@@ -187,16 +186,15 @@ module "us-west-2" {
   nat_version     = "${var.nat_version}"
 
   # monitoring
-  monitoring_slack_url             = "${var.monitoring_slack_url}"
-  monitoring_slack_channel         = "${var.monitoring_slack_channel}"
-  monitoring_notification_email    = "${var.monitoring_notification_email}"
-  monitoring_pagerduty_service_key = "${var.monitoring_pagerduty_service_key}"
-  monitoring_sudo_groups           = "${var.monitoring_sudo_groups}"
-  monitoring_user_groups           = "${var.monitoring_user_groups}"
-  monitoring_password              = "${var.monitoring_password}"
-  monitoring_version               = "${var.monitoring_version}"
-  monitoring_instance_type         = "${var.monitoring_instance_type}"
-  monitoring_swap_size_meg         = "${var.monitoring_swap_size_meg}"
+  monitoring_slack_url          = "${var.monitoring_slack_url}"
+  monitoring_slack_channel      = "${var.monitoring_slack_channel}"
+  monitoring_notification_email = "${var.monitoring_notification_email}"
+  monitoring_sudo_groups        = "${var.monitoring_sudo_groups}"
+  monitoring_user_groups        = "${var.monitoring_user_groups}"
+  monitoring_password           = "${var.monitoring_password}"
+  monitoring_version            = "${var.monitoring_version}"
+  monitoring_instance_type      = "${var.monitoring_instance_type}"
+  monitoring_swap_size_meg      = "${var.monitoring_swap_size_meg}"
 
   # Pagerduty
   monitoring_pagerduty_critical_platform_service_key        = "${var.monitoring_pagerduty_critical_platform_service_key}"

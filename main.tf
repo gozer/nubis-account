@@ -107,16 +107,15 @@ module "vpcs" {
   nat_version     = "${lookup(var.nat, "version")}"
 
   # monitoring
-  monitoring_slack_url             = "${lookup(var.monitoring, "slack_url")}"
-  monitoring_slack_channel         = "${lookup(var.monitoring, "slack_channel")}"
-  monitoring_notification_email    = "${lookup(var.monitoring, "notification_email")}"
-  monitoring_pagerduty_service_key = "${lookup(var.monitoring, "pagerduty_service_key")}"
-  monitoring_sudo_groups           = "${lookup(var.monitoring, "sudo_groups")}"
-  monitoring_user_groups           = "${lookup(var.monitoring, "user_groups")}"
-  monitoring_password              = "${lookup(var.monitoring, "password")}"
-  monitoring_version               = "${lookup(var.monitoring, "version")}"
-  monitoring_instance_type         = "${lookup(var.monitoring, "instance_type")}"
-  monitoring_swap_size_meg         = "${lookup(var.monitoring, "swap_size_meg")}"
+  monitoring_slack_url          = "${lookup(var.monitoring, "slack_url")}"
+  monitoring_slack_channel      = "${lookup(var.monitoring, "slack_channel")}"
+  monitoring_notification_email = "${lookup(var.monitoring, "notification_email")}"
+  monitoring_sudo_groups        = "${lookup(var.monitoring, "sudo_groups")}"
+  monitoring_user_groups        = "${lookup(var.monitoring, "user_groups")}"
+  monitoring_password           = "${lookup(var.monitoring, "password")}"
+  monitoring_version            = "${lookup(var.monitoring, "version")}"
+  monitoring_instance_type      = "${lookup(var.monitoring, "instance_type")}"
+  monitoring_swap_size_meg      = "${lookup(var.monitoring, "swap_size_meg")}"
 
   # Pagerduty
   monitoring_pagerduty_critical_platform_service_key        = "${module.pagerduty.pagerduty_platform_critical_key}"

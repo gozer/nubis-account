@@ -60,8 +60,6 @@ variable monitoring_slack_channel {}
 
 variable monitoring_notification_email {}
 
-variable monitoring_pagerduty_service_key {}
-
 variable monitoring_sudo_groups {}
 
 variable monitoring_user_groups {}

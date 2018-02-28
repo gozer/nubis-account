@@ -74,8 +74,6 @@ variable monitoring_slack_channel {}
 
 variable monitoring_notification_email {}
 
-variable monitoring_pagerduty_service_key {}
-
 variable monitoring_pagerduty_critical_platform_service_key {}
 
 variable monitoring_pagerduty_non_critical_platform_service_key {}

@@ -128,7 +128,6 @@ variable monitoring {
     slack_url                                      = ""
     slack_channel                                  = "#monitoring"
     notification_email                             = "nubis-team@mozilla.com"
-    pagerduty_service_key                          = "<UNSET>"
     sudo_groups                                    = "nubis_global_admins"
     user_groups                                    = ""
     password                                       = ""

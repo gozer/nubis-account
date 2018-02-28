@@ -845,10 +845,9 @@ module "monitoring" {
   service_name = "${var.account_name}"
   zone_id      = "${module.meta.HostedZoneId}"
 
-  slack_url             = "${var.monitoring_slack_url}"
-  slack_channel         = "${var.monitoring_slack_channel}"
-  notification_email    = "${var.monitoring_notification_email}"
-  pagerduty_service_key = "${var.monitoring_pagerduty_service_key}"
+  slack_url          = "${var.monitoring_slack_url}"
+  slack_channel      = "${var.monitoring_slack_channel}"
+  notification_email = "${var.monitoring_notification_email}"
 
   pagerduty_critical_platform_service_key        = "${var.monitoring_pagerduty_critical_platform_service_key}"
   pagerduty_non_critical_platform_service_key    = "${var.monitoring_pagerduty_non_critical_platform_service_key}"
