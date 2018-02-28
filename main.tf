@@ -44,6 +44,18 @@ module "global_opsec" {
   cloudtrail_sns_topic = "${lookup(var.cloudtrail, "sns_topic")}"
 }
 
+module "pagerduty" {
+  source  = "./modules/global/pagerduty"
+
+  pagerduty_token                                       = "${lookup(var.pagerduty, "token")}"
+  enable_pagerduty                                      = "${lookup(var.features, "monitoring") == 1 ? true : false}"
+  pagerduty_team_name                                   = "${lookup(var.pagerduty, "team_name")}"
+  pagerduty_platform_critical_escalation_policy         = "${lookup(var.pagerduty, "platform_critical_escalation_policy")}"
+  pagerduty_platform_non_critical_escalation_policy     = "${lookup(var.pagerduty, "platform_non_critical_escalation_policy")}"
+  pagerduty_application_critical_escalation_policy      = "${lookup(var.pagerduty, "application_critical_escalation_policy")}"
+  pagerduty_application_non_critical_escalation_policy  = "${lookup(var.pagerduty, "application_non_critical_escalation_policy")}"
+}
+
 module "vpcs" {
   source = "./modules/global/vpcs"
 
@@ -106,10 +118,11 @@ module "vpcs" {
   monitoring_instance_type         = "${lookup(var.monitoring, "instance_type")}"
   monitoring_swap_size_meg         = "${lookup(var.monitoring, "swap_size_meg")}"
 
-  monitoring_pagerduty_critical_platform_service_key        = "${lookup(var.monitoring, "pagerduty_critical_platform_service_key")}"
-  monitoring_pagerduty_non_critical_platform_service_key    = "${lookup(var.monitoring, "pagerduty_non_critical_platform_service_key")}"
-  monitoring_pagerduty_critical_application_service_key     = "${lookup(var.monitoring, "pagerduty_critical_application_service_key")}"
-  monitoring_pagerduty_non_critical_application_service_key = "${lookup(var.monitoring, "pagerduty_non_critical_application_service_key")}"
+  # Pagerduty
+  monitoring_pagerduty_critical_platform_service_key        = "${module.pagerduty.pagerduty_platform_critical_key}"
+  monitoring_pagerduty_non_critical_platform_service_key    = "${module.pagerduty.pagerduty_platform_non_critical_key}"
+  monitoring_pagerduty_critical_application_service_key     = "${module.pagerduty.pagerduty_application_critical_key}"
+  monitoring_pagerduty_non_critical_application_service_key = "${module.pagerduty.pagerduty_application_non_critical_key}"
 
   # fluentd
   fluentd         = "${var.fluentd}"

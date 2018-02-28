@@ -111,6 +111,19 @@ variable ci {
   }
 }
 
+variable pagerduty {
+  default = {
+    token                                         = ""
+    enable_pagerduty                              = ""
+    team_name                                     = "nubis"
+    platform_critical_escalation_policy           = "nubis"
+    platform_non_critical_escalation_policy       = "nubis"
+    application_critical_escalation_policy        = "nubis"
+    application_non_critical_escalation_policy    = "nubis"
+
+  }
+}
+
 variable monitoring {
   default = {
     slack_url                                       = ""
