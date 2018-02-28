@@ -113,33 +113,32 @@ variable ci {
 
 variable pagerduty {
   default = {
-    token                                         = ""
-    enable_pagerduty                              = ""
-    team_name                                     = "nubis"
-    platform_critical_escalation_policy           = "nubis"
-    platform_non_critical_escalation_policy       = "nubis"
-    application_critical_escalation_policy        = "nubis"
-    application_non_critical_escalation_policy    = "nubis"
-
+    token                                      = ""
+    enable_pagerduty                           = ""
+    team_name                                  = "nubis"
+    platform_critical_escalation_policy        = "nubis"
+    platform_non_critical_escalation_policy    = "nubis"
+    application_critical_escalation_policy     = "nubis"
+    application_non_critical_escalation_policy = "nubis"
   }
 }
 
 variable monitoring {
   default = {
-    slack_url                                       = ""
-    slack_channel                                   = "#monitoring"
-    notification_email                              = "nubis-team@mozilla.com"
-    pagerduty_service_key                           = "<UNSET>"
-    sudo_groups                                     = "nubis_global_admins"
-    user_groups                                     = ""
-    password                                        = ""
-    version                                         = ""
-    instance_type                                   = "t2.small"
-    swap_size_meg                                   = "2048"
-    pagerduty_critical_platform_service_key         = ""
-    pagerduty_non_critical_platform_service_key     = ""
-    pagerduty_critical_application_service_key      = ""
-    pagerduty_non_critical_application_service_key  = ""
+    slack_url                                      = ""
+    slack_channel                                  = "#monitoring"
+    notification_email                             = "nubis-team@mozilla.com"
+    pagerduty_service_key                          = "<UNSET>"
+    sudo_groups                                    = "nubis_global_admins"
+    user_groups                                    = ""
+    password                                       = ""
+    version                                        = ""
+    instance_type                                  = "t2.small"
+    swap_size_meg                                  = "2048"
+    pagerduty_critical_platform_service_key        = ""
+    pagerduty_non_critical_platform_service_key    = ""
+    pagerduty_critical_application_service_key     = ""
+    pagerduty_non_critical_application_service_key = ""
   }
 }
 

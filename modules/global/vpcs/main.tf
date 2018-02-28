@@ -70,10 +70,10 @@ module "us-east-1" {
   monitoring_swap_size_meg         = "${var.monitoring_swap_size_meg}"
 
   # Pagerduty
-  monitoring_pagerduty_critical_platform_service_key          = "${var.monitoring_pagerduty_critical_platform_service_key}"
-  monitoring_pagerduty_non_critical_platform_service_key      = "${var.monitoring_pagerduty_non_critical_platform_service_key}"
-  monitoring_pagerduty_critical_application_service_key       = "${var.monitoring_pagerduty_critical_application_service_key}"
-  monitoring_pagerduty_non_critical_application_service_key   = "${var.monitoring_pagerduty_non_critical_application_service_key}"
+  monitoring_pagerduty_critical_platform_service_key        = "${var.monitoring_pagerduty_critical_platform_service_key}"
+  monitoring_pagerduty_non_critical_platform_service_key    = "${var.monitoring_pagerduty_non_critical_platform_service_key}"
+  monitoring_pagerduty_critical_application_service_key     = "${var.monitoring_pagerduty_critical_application_service_key}"
+  monitoring_pagerduty_non_critical_application_service_key = "${var.monitoring_pagerduty_non_critical_application_service_key}"
 
   # fluentd
   fluentd         = "${var.fluentd}"
@@ -199,10 +199,10 @@ module "us-west-2" {
   monitoring_swap_size_meg         = "${var.monitoring_swap_size_meg}"
 
   # Pagerduty
-  monitoring_pagerduty_critical_platform_service_key          = "${var.monitoring_pagerduty_critical_platform_service_key}"
-  monitoring_pagerduty_non_critical_platform_service_key      = "${var.monitoring_pagerduty_non_critical_platform_service_key}"
-  monitoring_pagerduty_critical_application_service_key       = "${var.monitoring_pagerduty_critical_application_service_key}"
-  monitoring_pagerduty_non_critical_application_service_key   = "${var.monitoring_pagerduty_non_critical_application_service_key}"
+  monitoring_pagerduty_critical_platform_service_key        = "${var.monitoring_pagerduty_critical_platform_service_key}"
+  monitoring_pagerduty_non_critical_platform_service_key    = "${var.monitoring_pagerduty_non_critical_platform_service_key}"
+  monitoring_pagerduty_critical_application_service_key     = "${var.monitoring_pagerduty_critical_application_service_key}"
+  monitoring_pagerduty_non_critical_application_service_key = "${var.monitoring_pagerduty_non_critical_application_service_key}"
 
   # fluentd
   fluentd         = "${var.fluentd}"
