@@ -581,7 +581,7 @@ resource "aws_autoscaling_group" "nat" {
     create_before_destroy = true
   }
 
-  name = "nubis-nat-${element(var.arenas, count.index/2)}-${lookup(var.nat_side, count.index % 2)} (${element(aws_launch_configuration.nat.*.name, count.index)})"
+  name = "nat-${element(var.arenas, count.index/2)}-${lookup(var.nat_side, count.index % 2)} (${element(aws_launch_configuration.nat.*.name, count.index)})"
 
   # Subnets
   vpc_zone_identifier = [
@@ -645,7 +645,7 @@ resource "aws_launch_configuration" "nat" {
     create_before_destroy = true
   }
 
-  name_prefix = "nubis-nat-${element(var.arenas, count.index/2 )}-${lookup(var.nat_side, count.index % 2)}-"
+  name_prefix = "nat-${element(var.arenas, count.index/2 )}-${lookup(var.nat_side, count.index % 2)}-"
 
   image_id = "${module.nat-image.image_id}"
 
