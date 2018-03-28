@@ -13,6 +13,8 @@ module "cloudhealth" {
 resource "aws_route53_zone" "master_zone" {
   name = "${var.account_name}.${var.nubis_domain}"
 
+  delegation_set_id = "${aws_route53_delegation_set.meta.id}"
+
   tags {
     ServiceName      = "${var.account_name}"
     TechnicalContact = "${var.technical_contact}"
