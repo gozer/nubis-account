@@ -561,7 +561,7 @@ resource "aws_network_interface" "private-nat" {
 }
 
 module "nat-image" {
-  source        = "github.com/nubisproject/nubis-terraform///images?ref=develop"
+  source        = "github.com/nubisproject/nubis-terraform//images?ref=v2.2.0"
   region        = "${var.aws_region}"
   image_version = "${coalesce(var.nat_version, var.nubis_version)}"
   project       = "nubis-nat"
@@ -1048,7 +1048,7 @@ module "user_management" {
 #tunnel2_preshared_key
 
 module "vpn" {
-  source = "github.com/nubisproject/nubis-terraform-vpn?ref=develop"
+  source = "github.com/nubisproject/nubis-terraform-vpn?ref=v2.2.0"
 
   enabled           = "${var.enabled * var.enable_vpn}"
   region            = "${var.aws_region}"
