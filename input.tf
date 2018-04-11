@@ -66,6 +66,7 @@ variable features {
     user_management_consul = 1
     monitoring             = 0
     sso                    = 1
+    pagerduty              = 1
   }
 }
 

@@ -48,7 +48,7 @@ module "pagerduty" {
   source = "./modules/global/pagerduty"
 
   pagerduty_token                                      = "${lookup(var.pagerduty, "token")}"
-  enable_pagerduty                                     = "${lookup(var.features, "monitoring") == 1 ? true : false}"
+  enable_pagerduty                                     = "${lookup(var.features, "pagerduty") * lookup(var.features, "vpc") * lookup(var.features, "monitoring")}"
   pagerduty_team_name                                  = "${lookup(var.pagerduty, "team_name")}"
   pagerduty_platform_critical_escalation_policy        = "${lookup(var.pagerduty, "platform_critical_escalation_policy")}"
   pagerduty_platform_non_critical_escalation_policy    = "${lookup(var.pagerduty, "platform_non_critical_escalation_policy")}"
