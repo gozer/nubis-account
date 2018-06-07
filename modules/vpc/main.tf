@@ -1200,6 +1200,8 @@ resource "aws_route53_zone" "proxy" {
     ServiceName      = "${var.account_name}"
     TechnicalContact = "${var.technical_contact}"
   }
+
+  force_destroy = true
 }
 
 # Create a proxy discovery VPC DNS record for bootstrap proxy access

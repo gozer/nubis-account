@@ -18,6 +18,8 @@ resource "aws_route53_zone" "master_zone" {
     TechnicalContact = "${var.technical_contact}"
     NubisVersion     = "${var.nubis_version}"
   }
+
+  force_destroy = true
 }
 
 resource "aws_route53_record" "nubis-version" {

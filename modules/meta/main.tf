@@ -22,6 +22,8 @@ resource "aws_route53_zone" "hosted_zone" {
     TechnicalContact = "${var.technical_contact}"
     NubisVersion     = "${var.nubis_version}"
   }
+
+  force_destroy = true
 }
 
 resource "aws_route53_record" "hosted_zone" {
