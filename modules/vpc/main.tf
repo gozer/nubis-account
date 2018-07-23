@@ -1178,9 +1178,8 @@ module "kube-image" {
 
 # FIXME: will only work once vpc and public state is created
 module "kubnernetes" {
-  source = "github.com/nubisproject/nubis-kubernetes//nubis/terraform?ref=develop"
-
-  enabled      = "${var.enabled * var.enable_kubernetes}"
+  source       = "github.com/nubisproject/nubis-kubernetes//nubis/terraform?ref=develop"
+  count        = "${var.enabled * var.enable_kubernetes}"
   region       = "${var.aws_region}"
   arena        = "${var.arenas[0]}"
   environment  = "deploy"
