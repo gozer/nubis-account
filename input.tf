@@ -166,7 +166,7 @@ variable user_management {
     smtp_host          = "email-smtp.us-west-2.amazonaws.com"
     smtp_port          = "587"
     ldap_server        = "ldap.mozilla.org"
-    ldap_port          = "6363"
+    ldap_port          = "636"
     ldap_base_dn       = "dc=mozilla"
     ldap_bind_user     = "cn=example,o=com"
     ldap_bind_password = "xxxxx"

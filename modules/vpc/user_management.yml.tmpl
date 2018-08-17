@@ -31,7 +31,7 @@ LdapServer:
     - Users:
       LDAPGroup: "${users_ldap_group}"
       IAMPath: /nubis/readonly/
-  StartTLS: true
+  StartTLS: false
   TLSCrt: |
 ${tls_cert}
   CACrt:
