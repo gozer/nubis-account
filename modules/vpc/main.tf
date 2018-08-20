@@ -1495,8 +1495,8 @@ resource "aws_security_group" "ldap" {
   description = "Allow outbound ldap connection to moco ldap"
 
   egress {
-    from_port = "6363"
-    to_port   = "6363"
+    from_port = "636"
+    to_port   = "636"
     protocol  = "tcp"
 
     cidr_blocks = [
