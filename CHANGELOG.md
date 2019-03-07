@@ -1,17 +1,18 @@
 # Change Log
 
-## [v2.4.0](https://github.com/nubisproject/nubis-deploy/tree/v2.4.0) (2019-03-05)
+## [v2.4.0](https://github.com/nubisproject/nubis-deploy/tree/v2.4.0) (2019-03-07)
 [Full Changelog](https://github.com/nubisproject/nubis-deploy/compare/v2.4.0...v2.4.0)
 
 **Closed issues:**
 
-- Tag v2.4.0 release [\#497](https://github.com/nubisproject/nubis-deploy/issues/497)
+- Tag v2.4.0 release [\#500](https://github.com/nubisproject/nubis-deploy/issues/500)
 
-## [v2.4.0](https://github.com/nubisproject/nubis-deploy/tree/v2.4.0) (2019-02-23)
+## [v2.4.0](https://github.com/nubisproject/nubis-deploy/tree/v2.4.0) (2019-03-05)
 [Full Changelog](https://github.com/nubisproject/nubis-deploy/compare/v2.3.1...v2.4.0)
 
 **Closed issues:**
 
+- Tag v2.4.0 release [\#497](https://github.com/nubisproject/nubis-deploy/issues/497)
 - Tag v2.4.0 release [\#494](https://github.com/nubisproject/nubis-deploy/issues/494)
 - Tag v2.4.0 release [\#491](https://github.com/nubisproject/nubis-deploy/issues/491)
 - Tag v2.4.0 release [\#488](https://github.com/nubisproject/nubis-deploy/issues/488)
@@ -23,6 +24,8 @@
 
 **Merged pull requests:**
 
+- Update CHANGELOG for v2.4.0 release \[skip ci\] [\#502](https://github.com/nubisproject/nubis-deploy/pull/502) ([nubis-automation](https://github.com/nubis-automation))
+- Update CHANGELOG for v2.4.0 release \[skip ci\] [\#501](https://github.com/nubisproject/nubis-deploy/pull/501) ([nubis-automation](https://github.com/nubis-automation))
 - Update CHANGELOG for v2.4.0 release \[skip ci\] [\#499](https://github.com/nubisproject/nubis-deploy/pull/499) ([nubis-automation](https://github.com/nubis-automation))
 - Update CHANGELOG for v2.4.0 release \[skip ci\] [\#498](https://github.com/nubisproject/nubis-deploy/pull/498) ([nubis-automation](https://github.com/nubis-automation))
 - Update CHANGELOG for v2.4.0 release \[skip ci\] [\#496](https://github.com/nubisproject/nubis-deploy/pull/496) ([nubis-automation](https://github.com/nubis-automation))
