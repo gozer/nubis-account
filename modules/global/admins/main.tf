@@ -25,6 +25,12 @@ resource "aws_iam_user" "admin" {
   name  = "${element(split(",",var.admin_users), count.index)}"
 
   force_destroy = true
+
+  tags = {
+    Name      = "${element(split(",",var.admin_users), count.index)}"
+    Terraform = "true"
+    Managed   = "true"
+  }
 }
 
 resource "aws_iam_user" "guest" {
@@ -33,6 +39,12 @@ resource "aws_iam_user" "guest" {
   name  = "${element(split(",",var.guest_users), count.index)}"
 
   force_destroy = true
+
+  tags = {
+    Name      = "${element(split(",",var.guest_users), count.index)}"
+    Terraform = "true"
+    Managed   = "true"
+  }
 }
 
 data "template_file" "mfa" {
@@ -115,24 +127,25 @@ resource "aws_iam_group" "read_only_users" {
   path = "/nubis/"
 }
 
-resource "aws_iam_policy_attachment" "read_only" {
-  name       = "read-only-attachments"
-  groups     = ["${aws_iam_group.read_only_users.name}"]
-  roles      = ["${aws_iam_role.readonly.name}"]
+resource "aws_iam_role_policy_attachment" "read_only" {
+  role       = "${aws_iam_role.readonly.name}"
   policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
 }
 
-resource "aws_iam_policy_attachment" "admins" {
-  name = "admins"
-
-  roles      = ["${aws_iam_role.admin.*.name}"]
+resource "aws_iam_role_policy_attachment" "admins" {
+  count      = "${length(split(",", var.admin_users))}"
+  role       = "${element(aws_iam_role.admin.*.name, count.index)}"
   policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
 }
 
-resource "aws_iam_policy_attachment" "mfa" {
-  name       = "mfa"
-  groups     = ["${aws_iam_group.admins.name}"]
+resource "aws_iam_group_policy_attachment" "mfa" {
+  group      = "${aws_iam_group.admins.name}"
   policy_arn = "${aws_iam_policy.mfa.arn}"
+}
+
+resource "aws_iam_group_policy_attachment" "readonly" {
+  group      = "${aws_iam_group.read_only_users.name}"
+  policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
 }
 
 resource "aws_iam_group_policy" "nacl_admins" {
