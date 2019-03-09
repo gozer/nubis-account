@@ -1,17 +1,24 @@
 # Change Log
 
-## [v2.4.0](https://github.com/nubisproject/nubis-deploy/tree/v2.4.0) (2019-03-07)
+## [v2.4.0](https://github.com/nubisproject/nubis-deploy/tree/v2.4.0) (2019-03-09)
 [Full Changelog](https://github.com/nubisproject/nubis-deploy/compare/v2.4.0...v2.4.0)
 
 **Closed issues:**
 
-- Tag v2.4.0 release [\#500](https://github.com/nubisproject/nubis-deploy/issues/500)
+- Tag v2.4.0 release [\#503](https://github.com/nubisproject/nubis-deploy/issues/503)
 
-## [v2.4.0](https://github.com/nubisproject/nubis-deploy/tree/v2.4.0) (2019-03-05)
+**Merged pull requests:**
+
+- Develop [\#510](https://github.com/nubisproject/nubis-deploy/pull/510) ([gozer](https://github.com/gozer))
+- Remove jcrowe from default admins [\#509](https://github.com/nubisproject/nubis-deploy/pull/509) ([gozer](https://github.com/gozer))
+- Fixing iam role attachment [\#508](https://github.com/nubisproject/nubis-deploy/pull/508) ([limed](https://github.com/limed))
+
+## [v2.4.0](https://github.com/nubisproject/nubis-deploy/tree/v2.4.0) (2019-03-07)
 [Full Changelog](https://github.com/nubisproject/nubis-deploy/compare/v2.3.1...v2.4.0)
 
 **Closed issues:**
 
+- Tag v2.4.0 release [\#500](https://github.com/nubisproject/nubis-deploy/issues/500)
 - Tag v2.4.0 release [\#497](https://github.com/nubisproject/nubis-deploy/issues/497)
 - Tag v2.4.0 release [\#494](https://github.com/nubisproject/nubis-deploy/issues/494)
 - Tag v2.4.0 release [\#491](https://github.com/nubisproject/nubis-deploy/issues/491)
@@ -24,6 +31,8 @@
 
 **Merged pull requests:**
 
+- Update CHANGELOG for v2.4.0 release \[skip ci\] [\#505](https://github.com/nubisproject/nubis-deploy/pull/505) ([nubis-automation](https://github.com/nubis-automation))
+- Update CHANGELOG for v2.4.0 release \[skip ci\] [\#504](https://github.com/nubisproject/nubis-deploy/pull/504) ([nubis-automation](https://github.com/nubis-automation))
 - Update CHANGELOG for v2.4.0 release \[skip ci\] [\#502](https://github.com/nubisproject/nubis-deploy/pull/502) ([nubis-automation](https://github.com/nubis-automation))
 - Update CHANGELOG for v2.4.0 release \[skip ci\] [\#501](https://github.com/nubisproject/nubis-deploy/pull/501) ([nubis-automation](https://github.com/nubis-automation))
 - Update CHANGELOG for v2.4.0 release \[skip ci\] [\#499](https://github.com/nubisproject/nubis-deploy/pull/499) ([nubis-automation](https://github.com/nubis-automation))
