@@ -665,7 +665,7 @@ resource "aws_network_interface" "private-nat" {
 }
 
 module "nat-image" {
-  source        = "github.com/nubisproject/nubis-terraform//images?ref=v2.4.0"
+  source        = "github.com/nubisproject/nubis-terraform//images?ref=v2.4.3"
   region        = "${var.aws_region}"
   image_version = "${coalesce(var.nat_version, var.nubis_version)}"
   project       = "nubis-nat"
@@ -836,7 +836,7 @@ resource "aws_iam_instance_profile" "nat" {
 }
 
 module "jumphost" {
-  source = "github.com/nubisproject/nubis-jumphost//nubis/terraform?ref=v2.4.0"
+  source = "github.com/nubisproject/nubis-jumphost//nubis/terraform?ref=v2.4.3"
 
   enabled = "${var.enabled * var.enable_jumphost}"
 
@@ -871,7 +871,7 @@ resource "aws_iam_role_policy_attachment" "fluent" {
 }
 
 module "fluent-collector" {
-  source = "github.com/nubisproject/nubis-fluent-collector//nubis/terraform?ref=v2.4.0"
+  source = "github.com/nubisproject/nubis-fluent-collector//nubis/terraform?ref=v2.4.3"
 
   enabled            = "${var.enabled * var.enable_fluent}"
   monitoring_enabled = "${var.enabled * var.enable_fluent * var.enable_monitoring}"
@@ -918,7 +918,7 @@ resource "aws_iam_role_policy_attachment" "monitoring" {
 }
 
 module "monitoring" {
-  source = "github.com/nubisproject/nubis-prometheus//nubis/terraform?ref=v2.4.0"
+  source = "github.com/nubisproject/nubis-prometheus//nubis/terraform?ref=v2.4.3"
 
   enabled = "${var.enabled * var.enable_monitoring}"
 
@@ -973,7 +973,7 @@ resource "aws_iam_role_policy_attachment" "sso" {
 }
 
 module "sso" {
-  source = "github.com/nubisproject/nubis-sso//nubis/terraform?ref=v2.4.0"
+  source = "github.com/nubisproject/nubis-sso//nubis/terraform?ref=v2.4.3"
 
   enabled = "${var.enabled * var.enable_sso}"
 
@@ -1015,7 +1015,7 @@ resource "aws_iam_role_policy_attachment" "consul" {
 }
 
 module "consul" {
-  source = "github.com/nubisproject/nubis-consul//nubis/terraform?ref=v2.4.0"
+  source = "github.com/nubisproject/nubis-consul//nubis/terraform?ref=v2.4.3"
 
   enabled = "${var.enabled * var.enable_consul}"
 
@@ -1059,7 +1059,7 @@ resource "aws_iam_role_policy_attachment" "ci" {
 
 # XXX: This assumes it's going in the first arena of the first region
 module "ci" {
-  source = "github.com/nubisproject/nubis-ci//nubis/terraform?ref=v2.4.0"
+  source = "github.com/nubisproject/nubis-ci//nubis/terraform?ref=v2.4.3"
 
   enabled = "${var.enabled * var.enable_ci * ((1 + signum(index(concat(split(",", var.aws_regions), list(var.aws_region)),var.aws_region))) % 2 )}"
 
@@ -1152,7 +1152,7 @@ module "user_management" {
 #tunnel2_preshared_key
 
 module "vpn" {
-  source = "github.com/nubisproject/nubis-terraform-vpn?ref=v2.4.0"
+  source = "github.com/nubisproject/nubis-terraform-vpn?ref=v2.4.3"
 
   enabled           = "${var.enabled * var.enable_vpn}"
   region            = "${var.aws_region}"
@@ -1170,7 +1170,7 @@ module "vpn" {
 }
 
 module "kube-image" {
-  source        = "github.com/nubisproject/nubis-terraform//images?ref=v2.4.0"
+  source        = "github.com/nubisproject/nubis-terraform//images?ref=v2.4.3"
   region        = "${var.aws_region}"
   image_version = "${coalesce(var.kubernetes_image_version, var.nubis_version)}"
   project       = "nubis-kubernetes"
@@ -1178,7 +1178,7 @@ module "kube-image" {
 
 # FIXME: will only work once vpc and public state is created
 module "kubnernetes" {
-  source = "github.com/nubisproject/nubis-kubernetes//nubis/terraform?ref=v2.4.0"
+  source = "github.com/nubisproject/nubis-kubernetes//nubis/terraform?ref=v2.4.3"
 
   enabled      = "${var.enabled * var.enable_kubernetes}"
   region       = "${var.aws_region}"
