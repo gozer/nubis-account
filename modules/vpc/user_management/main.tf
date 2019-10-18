@@ -53,7 +53,7 @@ resource "aws_lambda_function" "user_management" {
   handler       = "index.handler"
   description   = "Queries LDAP and inserts user into consul and create and delete IAM users"
   memory_size   = 128
-  runtime       = "nodejs8.10"
+  runtime       = "nodejs10.x"
   timeout       = "300"
 }
 
